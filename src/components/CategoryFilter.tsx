@@ -6,6 +6,9 @@ import { formatCategory } from "@/lib/catalogue";
 import { useCatalogueNav } from "./CatalogueNav";
 import { Glass } from "./glass/Glass";
 
+/** The lens glide (same spring as the reference tab bar). */
+const EASE = "cubic-bezier(0.32, 1.08, 0.5, 1)";
+
 /**
  * Desktop (lg+): sidebar list of real links (works without JS, middle-click,
  * aria-current). Below lg: a native <select>, the most usable mobile picker.
@@ -54,24 +57,6 @@ export function CategoryFilter({
             Categories
           </h2>
           <ul ref={list} className="relative min-h-0 flex-1 space-y-0.5 overflow-y-auto overscroll-contain">
-            {lens && (
-              <Glass
-                aria-hidden="true"
-                radius={18}
-                bezel={10}
-                bend={10}
-                frost={0.3}
-                dispersion={0.18}
-                className="lens pointer-events-none absolute inset-x-0 top-0"
-                style={{
-                  height: lens.h,
-                  transform: `translateY(${lens.y}px)`,
-                  transition: glide
-                    ? "transform 600ms cubic-bezier(0.32, 1.08, 0.5, 1), height 600ms cubic-bezier(0.32, 1.08, 0.5, 1)"
-                    : "none",
-                }}
-              />
-            )}
             {items.map(([slug, label]) => {
               const active = current === slug;
               return (
@@ -81,8 +66,8 @@ export function CategoryFilter({
                     onClick={(e) => onClick(e, slug)}
                     aria-current={active ? "page" : undefined}
                     scroll={false}
-                    className={`block rounded-full px-3 py-2 text-sm pointer-coarse:py-3 transition-[color,background-color,translate] duration-300 ease-out-expo ${
-                      active ? "translate-x-1 font-medium text-ink" : "text-muted hover:bg-veil/60 hover:text-ink"
+                    className={`block rounded-full px-3 py-2 text-sm pointer-coarse:py-3 transition-[color,background-color] duration-300 ease-out-expo ${
+                      active ? "font-medium text-ink" : "text-muted hover:bg-veil/60 hover:text-ink"
                     }`}
                   >
                     {label}
@@ -90,6 +75,40 @@ export function CategoryFilter({
                 </li>
               );
             })}
+            {/* The lens paints above the list and carries its own inverted copy of the
+                labels, counter-shifted so each sits exactly over the real one. The
+                lens clips that copy, so the inverted text is always exactly where the
+                glass is, on every frame of the glide. */}
+            {lens && (
+              <Glass
+                aria-hidden="true"
+                radius={18}
+                bezel={10}
+                bend={10}
+                frost={0.3}
+                dispersion={0.18}
+                className="lens pointer-events-none absolute inset-x-0 top-0 z-10 overflow-hidden"
+                style={{
+                  height: lens.h,
+                  transform: `translateY(${lens.y}px)`,
+                  transition: glide ? `transform 600ms ${EASE}, height 600ms ${EASE}` : "none",
+                }}
+              >
+                <div
+                  className="space-y-0.5"
+                  style={{
+                    transform: `translateY(${-lens.y}px)`,
+                    transition: glide ? `transform 600ms ${EASE}` : "none",
+                  }}
+                >
+                  {items.map(([slug, label]) => (
+                    <div key={slug ?? "all"} className="px-3 py-2 text-sm font-medium text-room pointer-coarse:py-3">
+                      {label}
+                    </div>
+                  ))}
+                </div>
+              </Glass>
+            )}
           </ul>
         </Glass>
       </nav>

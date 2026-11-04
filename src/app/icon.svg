@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    .tile { fill: #111113; }
+    .row { fill: #f3f2ef; opacity: .38; }
+    .lens { fill: #f3f2ef; }
+    .rim { fill: none; stroke: #ffffff; stroke-opacity: .55; }
+    @media (prefers-color-scheme: dark) {
+      .tile { fill: #f3f2ef; }
+      .row { fill: #111113; }
+      .lens { fill: #111113; }
+      .rim { stroke: #111113; stroke-opacity: .25; }
+    }
+  </style>
+  <rect class="tile" width="64" height="64" rx="16"/>
+  <rect class="row" x="15" y="14" width="22" height="6" rx="3"/>
+  <rect class="lens" x="10" y="26" width="44" height="12" rx="6"/>
+  <rect class="rim" x="10.75" y="26.75" width="42.5" height="10.5" rx="5.25" stroke-width="1.5"/>
+  <rect class="row" x="15" y="44" width="28" height="6" rx="3"/>
+</svg>

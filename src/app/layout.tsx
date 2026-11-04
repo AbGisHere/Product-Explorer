@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Archivo, Hanken_Grotesk } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Room } from "@/components/glass/Room";
-import { THEME_INIT_SCRIPT } from "@/lib/theme-script";
+import { ThemeScript } from "@/components/ThemeScript";
 import { version } from "../../package.json";
 import "./globals.css";
 
@@ -12,6 +12,20 @@ const hanken = Hanken_Grotesk({ variable: "--font-hanken", subsets: ["latin"] })
 export const metadata: Metadata = {
   title: { default: "Product Explorer", template: "%s · Product Explorer" },
   description: "Browse, search and save products from the DummyJSON catalogue.",
+  applicationName: "Product Explorer",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ??
+      (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000"),
+  ),
+  openGraph: { siteName: "Product Explorer", type: "website" },
+};
+
+// Browser chrome (mobile address bar, PWA title bar) matches the room in each theme.
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#e6e6e8" },
+    { media: "(prefers-color-scheme: dark)", color: "#0e0e11" },
+  ],
 };
 
 // The shell (header + main landmark) lives in the root layout, so it's kept
@@ -21,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     // suppressHydrationWarning: the theme script sets data-theme before React hydrates.
     <html lang="en" className={`${archivo.variable} ${hanken.variable} antialiased`} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <ThemeScript />
       </head>
       <body className="flex min-h-dvh flex-col">
         <a

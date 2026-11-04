@@ -6,6 +6,19 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.13] - 2026-11-04
+### Added
+- Own icon set: an SVG favicon (an ink tile with the glass selection lens, inverted for dark browser chrome), plus favicon.ico, an Apple touch icon, a web manifest and a social preview image. The template Next.js and Vercel SVGs in `public/` are removed.
+- `global-error.tsx`: a branded last-resort error page, replacing Next's default when the root layout itself fails.
+- Tab titles for every state: "Page not found", "Product not found", and the error boundary's message. Theme-colour meta tags match the room colour in each theme.
+- README: an "Out of scope" section (no auth, payments or API mutations).
+
+### Fixed
+- Category sidebar: the inverted label now always sits exactly under the moving lens. The lens carries its own clipped copy of the labels, so text no longer vanishes mid-glide.
+- Product 404 page: lost a saved dark theme, and dev mode flagged a client-rendered `<script>`. The theme script now renders in the server HTML only and is re-applied when Next re-renders the root layout.
+### Changed
+- Category sidebar: the selection lens is now tinted ink glass (dark in the light theme, light in the dark theme) with inverted text, so it is clearly visible in light mode. It keeps a lit top edge and sheen so it still reads as glass.
+
 ## [0.3.12] - 2026-11-04
 ### Changed
 - Detail page: "Save product" and "Back to catalogue" are glass buttons (lit rim, frosted fill), matching the sidebar lens. Saving fills the glass with ink and unsaving clears it, both with a smooth fade.

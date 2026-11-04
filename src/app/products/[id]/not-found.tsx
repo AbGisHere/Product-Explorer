@@ -1,5 +1,8 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { StatePanel } from "@/components/states";
+
+export const metadata: Metadata = { title: "Product not found", robots: { index: false } };
 
 export default function ProductNotFound() {
   return (

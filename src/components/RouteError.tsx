@@ -28,6 +28,8 @@ export function RouteError({
 
   return (
     <div className="py-8">
+      {/* React 19 hoists this into <head>: the tab names the problem, not the page that failed. */}
+      <title>{`${title} · Product Explorer`}</title>
       <StatePanel
         tone="error"
         title={title}

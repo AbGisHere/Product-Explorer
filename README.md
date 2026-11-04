@@ -1,6 +1,6 @@
 # Product Explorer
 
-**Version:** `v0.3.12`
+**Version:** `v0.3.13`
 
 A responsive product discovery app (GDG Tech Frontend Task II): browse the DummyJSON
 catalogue, search / filter / sort / paginate, view product details and save favourites,
@@ -14,6 +14,7 @@ Built with **Next.js 16 App Router · React 19 · TypeScript · Tailwind CSS 4**
 - [Caching](#caching)
 - [Testing & verification](#testing--verification)
 - [Scaling to a larger dataset](#scaling-to-a-larger-dataset)
+- [Out of scope](#out-of-scope)
 - [Known limitations](#known-limitations)
 - [Libraries, assets & authorship](#libraries-assets--authorship)
 
@@ -195,6 +196,10 @@ Fetching everything with `limit=0` works for 194 products and makes combined fil
 - **Use cursor pagination** for deep pages, and a dedicated `/categories` endpoint instead of deriving categories from all products.
 - **Saved view:** fetch by ids (`/products?ids=…`, batched) instead of filtering the full set.
 - **Faster invalidation:** webhooks from the product system call `revalidateTag("product-{id}")` for just the changed items.
+
+## Out of scope
+
+As the brief sets out: no authentication, payments or persistent API mutations. Favourites live only in the browser (localStorage), and "Refresh catalogue" invalidates the server cache; it never writes to DummyJSON.
 
 ---
 
