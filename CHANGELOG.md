@@ -6,6 +6,13 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-04
+### Changed
+- Light mode contrast: product photo boxes have a faint hairline edge and a slightly deeper fill, dividers are a touch stronger, and glass panels have a stronger rim and fill, so cards stand out from the background on phones, tablets and laptops.
+
+### Docs
+- README screenshots recaptured with the new light theme.
+
 ## [1.0.2] - 2026-11-04
 ### Docs
 - README header uses badges instead of a text version line. The badges show the version, latest release tag, CI status, live site, tests, cache evidence, the stack versions and the data source. `npm run release` and `version:check` now read and update the version badge.

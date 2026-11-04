@@ -1,6 +1,6 @@
 # Product Explorer
 
-[![Version](https://img.shields.io/badge/version-v1.0.2-18181b?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v1.0.3-18181b?style=flat-square)](CHANGELOG.md)
 [![Release](https://img.shields.io/github/v/tag/AbGisHere/Product-Explorer?label=release&style=flat-square&color=18181b)](https://github.com/AbGisHere/Product-Explorer/tags)
 [![CI](https://img.shields.io/github/actions/workflow/status/AbGisHere/Product-Explorer/ci.yml?branch=main&label=CI&style=flat-square)](https://github.com/AbGisHere/Product-Explorer/actions/workflows/ci.yml)
 [![Live](https://img.shields.io/website?url=https%3A%2F%2Fpm.abgupta.me&label=live&up_message=pm.abgupta.me&style=flat-square)](https://pm.abgupta.me)

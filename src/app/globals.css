@@ -37,18 +37,18 @@
   --ink: #111113;
   --muted: #53545b;
   --quiet: #6e6f76;
-  --line: rgb(17 17 19 / 0.12);
+  --line: rgb(17 17 19 / 0.14);
   --veil: rgb(255 255 255 / 0.4);
-  --well: rgb(17 17 19 / 0.05);
-  --well-rim: transparent;
+  --well: rgb(17 17 19 / 0.065);
+  --well-rim: rgb(17 17 19 / 0.1);
   --photo-blend: multiply;
   --paper: #f4f4f5;
   --danger: #a3261d;
   --success: #1d6a3c;
 
-  --glass-fill: rgb(255 255 255 / 0.1);
+  --glass-fill: rgb(255 255 255 / 0.16);
   --glass-rim: rgb(255 255 255 / 0.9);
-  --glass-rim-low: rgb(255 255 255 / 0.25);
+  --glass-rim-low: rgb(255 255 255 / 0.4);
   --glass-sheen: rgb(255 255 255 / 0.3);
   --glass-shade: rgb(20 20 30 / 0.24);
 
