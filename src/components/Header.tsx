@@ -26,7 +26,7 @@ export function Header() {
         )}
         <nav aria-label="Primary" className="flex flex-wrap items-center gap-1.5">
           {/* useSearchParams in a layout needs a Suspense boundary */}
-          <Suspense fallback={<span className="btn h-10 px-4">Saved</span>}>
+          <Suspense fallback={<span className="btn btn-glass glass h-10 px-4">Saved</span>}>
             <SavedLink />
           </Suspense>
           <RefreshButton />

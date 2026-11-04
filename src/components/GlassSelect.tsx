@@ -24,12 +24,15 @@ export function GlassSelect<V extends string>({
   options,
   onChange,
   className = "",
+  fieldClassName = "",
 }: {
   label: string;
   value: V;
   options: readonly Option<V>[];
   onChange: (value: V) => void;
   className?: string;
+  /** Extra classes for the button itself (e.g. corner shape inside a toolbar). */
+  fieldClassName?: string;
 }) {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const button = useRef<HTMLButtonElement>(null);
@@ -171,7 +174,7 @@ export function GlassSelect<V extends string>({
         aria-controls={open ? `${uid}-list` : undefined}
         onClick={() => (open ? close() : show())}
         onKeyDown={onButtonKey}
-        className="field flex cursor-pointer items-center justify-between gap-2 text-left"
+        className={`field ${fieldClassName} flex cursor-pointer items-center justify-between gap-2 text-left`}
       >
         <span className="truncate">{current?.[1]}</span>
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round"
@@ -209,8 +212,16 @@ export function GlassSelect<V extends string>({
                   id={optId(i)}
                   role="option"
                   aria-selected={i === selectedIndex}
-                  onPointerMove={() => active !== i && setActive(i)}
-                  onClick={() => pick(i)}
+                  // Mouse/trackpad: the lens follows the pointer. Touch or pen (phone, iPad): it stays put while you
+                  // scroll and glides only to the row you tap, then the panel closes.
+                  onPointerMove={(e) => e.pointerType === "mouse" && active !== i && setActive(i)}
+                  onClick={(e) => {
+                    const kind = (e.nativeEvent as PointerEvent).pointerType;
+                    const touch = kind === "touch" || kind === "pen"; // phones, iPads, Pencil
+                    if (!touch || i === active) return pick(i);
+                    setActive(i);
+                    setTimeout(() => pick(i), 280);
+                  }}
                   className={`${row} cursor-pointer ${i === selectedIndex ? "font-medium text-ink" : "text-muted"}`}
                 >
                   <span className="truncate">{text}</span>

@@ -45,7 +45,7 @@ export function SearchInput() {
         placeholder="Search the collection"
         maxLength={100}
         autoComplete="off"
-        className="field pl-11"
+        className="field pl-11 max-md:rounded-b-none md:rounded-r-none"
       />
     </div>
   );

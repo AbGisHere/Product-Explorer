@@ -6,6 +6,14 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.17] - 2026-11-04
+### Changed
+- Header buttons (Saved, Refresh catalogue, theme toggle) are now glass, matching the Save product and Back to catalogue buttons. They have a translucent fill, a lit rim and a soft shadow, with the dark glass for Refresh and for Saved while it's active.
+### Fixed
+- Search, Category and Sort focus outlines now match the toolbar. Each one is rounded only where it meets the toolbar's outer edge and straight where it meets a divider, on both the phone layout (stacked) and the one-row layout.
+- The dark glass button style had picked up an extra outline from the lens change in 0.3.16. It's restored.
+- Dropdowns on touch screens (phones and iPads, finger or Apple Pencil): the lens no longer chases your finger while you scroll the list. It glides only to the row you tap, and the panel closes once it lands. A mouse or trackpad (an iPad with a trackpad included) still makes it follow the pointer.
+
 ## [0.3.16] - 2026-11-04
 ### Changed
 - Category (on phones and tablets) and Sort are now glass dropdowns instead of the system pickers. The same gliding lens follows your pointer or the arrow keys, with a check mark on the current choice. Full keyboard support: arrows, Home/End, Page Up/Down, Enter/Space, Escape and type-to-jump. Screen readers get the standard combobox and listbox roles. The panel opens upward when there isn't room below.

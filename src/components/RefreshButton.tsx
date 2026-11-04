@@ -53,7 +53,7 @@ export function RefreshButton() {
         onClick={onClick}
         disabled={pending}
         aria-label={folded ? "Refresh catalogue again" : undefined}
-        className={`btn btn-primary h-10 overflow-hidden transition-[padding,gap,background-color] duration-500 ease-out-expo disabled:opacity-100 ${
+        className={`btn btn-glass glass btn-primary h-10 overflow-hidden transition-[padding,gap,background-color] duration-500 ease-out-expo disabled:opacity-100 ${
           folded ? "gap-0 px-3" : "gap-2 px-4 max-sm:gap-0 max-sm:px-3"
         }`}
       >

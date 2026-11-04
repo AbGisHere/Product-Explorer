@@ -15,6 +15,7 @@ export function SortSelect() {
       options={OPTIONS}
       onChange={(sort) => navigate({ sort })}
       className="flex-1 md:w-56 md:flex-none"
+      fieldClassName="max-md:rounded-t-none max-md:rounded-bl-none md:rounded-l-none"
     />
   );
 }

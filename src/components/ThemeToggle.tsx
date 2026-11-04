@@ -13,7 +13,7 @@ export function ThemeToggle() {
       aria-label="Dark theme"
       aria-pressed={theme === null ? undefined : dark}
       onClick={() => setTheme(dark ? "light" : "dark")}
-      className="btn size-10 px-0"
+      className="btn btn-glass glass size-10 px-0"
     >
       {dark ? <SunIcon className="size-4" /> : <MoonIcon className="size-4" />}
     </button>

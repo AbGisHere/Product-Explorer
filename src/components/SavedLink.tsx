@@ -13,7 +13,7 @@ export function SavedLink() {
     <Link
       href={active ? "/" : `/?saved=${ids.join(",")}`}
       aria-current={active ? "page" : undefined}
-      className={`btn h-10 px-4 ${active ? "btn-primary" : ""}`}
+      className={`btn btn-glass glass h-10 px-4 ${active ? "btn-primary" : ""}`}
     >
       <HeartIcon filled={active} className="size-4" />
       Saved

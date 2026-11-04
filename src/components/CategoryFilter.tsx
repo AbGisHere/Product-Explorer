@@ -122,6 +122,7 @@ export function CategoryFilter({
       options={items.map(([slug, label]) => [slug ?? "", label] as const)}
       onChange={(v) => navigate({ category: v || null })}
       className="flex-1 lg:hidden md:w-56 md:flex-none"
+      fieldClassName="max-md:rounded-t-none max-md:rounded-br-none md:rounded-none"
     />
   );
 }
