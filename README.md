@@ -1,6 +1,6 @@
 # Product Explorer
 
-**Version:** `v1.0.0`
+**Version:** `v1.0.1`
 
 A responsive product discovery app (GDG Tech Frontend Task II): browse the DummyJSON
 catalogue, search / filter / sort / paginate, view product details and save favourites,
@@ -8,11 +8,16 @@ with an explicit, **proven** server-side caching strategy.
 
 Built with **Next.js 16 App Router · React 19 · TypeScript · Tailwind CSS 4**.
 
+**Live:** [pm.abgupta.me](https://pm.abgupta.me)
+
+![Catalogue, light theme, 1280 px](evidence/screenshots/catalogue-1280-light.png)
+
 - [Quick start](#quick-start)
 - [Features](#features)
 - [Architecture](#architecture)
 - [Caching](#caching)
 - [Testing & verification](#testing--verification)
+- [Screenshots](#screenshots)
 - [Scaling to a larger dataset](#scaling-to-a-larger-dataset)
 - [Out of scope](#out-of-scope)
 - [Known limitations](#known-limitations)
@@ -183,7 +188,39 @@ npm test
 
 **CI** (`.github/workflows/ci.yml`) runs on every push and PR: version consistency, commit message format (PRs), lint, typecheck, tests, build, then the cache-evidence job.
 
-**Manual checks** (done on the production build): combined controls, URL restoration on refresh and back/forward, saved state after reload, keyboard-only navigation (Tab, Enter, Space, arrow keys in selects), and 375 / 768 / 1280 px widths. Screenshots: `evidence/screenshots/` *(to be added)*.
+**Manual checks** (done on the production build): combined controls, URL restoration on refresh and back/forward, saved state after reload, keyboard-only navigation (Tab, Enter, Space, arrow keys in selects), and 375 / 768 / 1280 px widths. See [Screenshots](#screenshots).
+
+---
+
+## Screenshots
+
+Captured from the production site ([pm.abgupta.me](https://pm.abgupta.me)), v1.0.0. All files are in [`evidence/screenshots/`](evidence/screenshots/).
+
+**Catalogue at the three required widths** (light / dark):
+
+| 375 px | 768 px | 1280 px |
+|---|---|---|
+| ![](evidence/screenshots/catalogue-375-light.png) | ![](evidence/screenshots/catalogue-768-light.png) | ![](evidence/screenshots/catalogue-1280-light.png) |
+| ![](evidence/screenshots/catalogue-375-dark.png) | ![](evidence/screenshots/catalogue-768-dark.png) | ![](evidence/screenshots/catalogue-1280-dark.png) |
+
+**Product detail** (`/products/6`):
+
+| 375 px | 1280 px |
+|---|---|
+| ![](evidence/screenshots/detail-375-light.png) | ![](evidence/screenshots/detail-1280-light.png) |
+| ![](evidence/screenshots/detail-375-dark.png) | ![](evidence/screenshots/detail-1280-dark.png) |
+
+**Views and states:**
+
+| Combined search + category + sort | Saved-only view | Empty results | Unknown product (404) |
+|---|---|---|---|
+| ![](evidence/screenshots/filtered-1280-light.png) | ![](evidence/screenshots/saved-1280-light.png) | ![](evidence/screenshots/empty-1280-light.png) | ![](evidence/screenshots/not-found-1280-light.png) |
+
+**Phone controls:** the glass category dropdown, and the pager unfolded to show every page.
+
+| Category dropdown | Unfolded pager |
+|---|---|
+| ![](evidence/screenshots/dropdown-375-light.png) | ![](evidence/screenshots/pager-open-375-light.png) |
 
 ---
 

@@ -6,6 +6,10 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-11-04
+### Docs
+- README links the live site ([pm.abgupta.me](https://pm.abgupta.me)) and adds a Screenshots section: the catalogue at 375 / 768 / 1280 px in both themes, the product page, the combined filters, the saved view, empty results, the 404 and the phone controls. Images are in `evidence/screenshots/`, captured from production.
+
 ## [1.0.0] - 2026-11-04
 ### Release
 - 1.0.0: first stable release of Product Explorer for GDG Frontend Task II. No code changes since 0.3.19.
