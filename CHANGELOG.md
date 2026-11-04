@@ -6,6 +6,10 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-04
+### Fixed
+- CI typecheck on a clean checkout: `typecheck` now runs `next typegen` first so generated route types (`LayoutProps`) exist.
+
 ## [0.1.0] - 2026-11-04
 ### Added
 - Next.js 16.4.5 App Router + TypeScript + Tailwind CSS 4 project with exact pinned dependencies.
