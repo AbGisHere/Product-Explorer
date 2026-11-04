@@ -12,9 +12,10 @@ export function Header() {
     <header className="sticky top-3 z-30 px-3 sm:px-5">
       <Glass
         radius={30}
-        bezel={20}
-        bend={22}
-        frost={2}
+        bezel={14}
+        bend={20}
+        frost={0.7}
+        dispersion={0.16}
         className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-3 gap-y-2 py-2 pl-5 pr-2 sm:pl-6"
       >
         <Link href="/" className="display mr-auto w-min rounded-full py-1.5 text-[0.6875rem] leading-tight sm:w-auto sm:py-2 sm:text-[0.75rem] tracking-[0.16em] md:text-[0.8125rem] sm:tracking-[0.18em]">

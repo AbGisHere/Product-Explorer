@@ -6,6 +6,10 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.14] - 2026-11-04
+### Changed
+- Header: clear glass instead of frosted. Blur drops from 2px to 0.7px and the curved rim narrows from 20px to 14px, so content stays sharp through the middle of the bar and bends, with colour fringes, only at the edges.
+
 ## [0.3.13] - 2026-11-04
 ### Added
 - Own icon set: an SVG favicon (an ink tile with the glass selection lens, inverted for dark browser chrome), plus favicon.ico, an Apple touch icon, a web manifest and a social preview image. The template Next.js and Vercel SVGs in `public/` are removed.
