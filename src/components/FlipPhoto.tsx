@@ -71,7 +71,9 @@ function whiteToAlpha(img: HTMLImageElement): HTMLCanvasElement | null {
     c.height = img.naturalHeight;
     const ctx = c.getContext("2d", { willReadFrequently: true });
     if (!ctx) return null;
-    ctx.drawImage(img, 0, 0);
+    // Always scale explicitly: with srcset, naturalWidth is density-corrected
+    // (a 2x pick reports half its pixels), so an unscaled draw shows one corner.
+    ctx.drawImage(img, 0, 0, c.width, c.height);
     const im = ctx.getImageData(0, 0, c.width, c.height);
     const d = im.data;
     for (let i = 0; i < d.length; i += 4) {

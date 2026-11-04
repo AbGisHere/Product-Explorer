@@ -6,6 +6,10 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.8] - 2026-11-04
+### Fixed
+- Photo flight on high-density (Retina) screens in light mode: the flying copy showed only an enlarged, faint corner of the photo. With srcset, the browser reports a 2x photo at half its real pixel size, and the copy was drawn unscaled. It is now scaled to the canvas, so the whole photo flies.
+
 ## [0.3.7] - 2026-11-04
 ### Changed
 - Category sidebar: the selection is now a clear glass lens (lit rim, inner glow, refraction in Chromium) instead of a solid ink pill. It glides between categories on a slight spring the moment you click, without waiting for the server, and the chosen label nudges in.
