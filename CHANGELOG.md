@@ -6,6 +6,10 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.10] - 2026-11-04
+### Changed
+- Phone layout: the header fits on one row (the title stacks onto two lines), category and sort sit side by side under the search, product photos are square instead of 4:5, and spacing is tighter. The first product is now fully visible at 375px. The toolbar stays stacked up to 768px so the search field isn't squeezed.
+
 ## [0.3.9] - 2026-11-04
 ### Changed
 - Touch targets: the detail-page breadcrumb links and the footer DummyJSON link now have a 44px tap height without changing the layout. On touch screens at 1024px and wider, the category sidebar rows are taller.

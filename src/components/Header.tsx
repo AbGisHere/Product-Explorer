@@ -17,7 +17,7 @@ export function Header() {
         frost={2}
         className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-3 gap-y-2 py-2 pl-5 pr-2 sm:pl-6"
       >
-        <Link href="/" className="display mr-auto rounded-full py-2 text-[0.75rem] tracking-[0.16em] sm:text-[0.8125rem] sm:tracking-[0.18em]">
+        <Link href="/" className="display mr-auto w-min rounded-full py-1.5 text-[0.6875rem] leading-tight sm:w-auto sm:py-2 sm:text-[0.75rem] tracking-[0.16em] md:text-[0.8125rem] sm:tracking-[0.18em]">
           Product Explorer
         </Link>
         {isFixtureMode() && (

@@ -48,7 +48,7 @@ export default async function CataloguePage({ searchParams }: { searchParams: SP
         <CategoryFilter categories={categories} variant="sidebar" />
 
         <section aria-labelledby="results-heading" className="min-w-0">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+          <div className="mb-5 flex flex-wrap items-end sm:mb-8 justify-between gap-x-6 gap-y-2">
             <h1
               id="results-heading"
               className="display scroll-mt-28 text-balance text-[clamp(2rem,5vw,3.5rem)] leading-[0.95] tracking-[-0.01em]"
@@ -64,11 +64,13 @@ export default async function CataloguePage({ searchParams }: { searchParams: SP
             bezel={18}
             bend={20}
             frost={2}
-            className="mb-8 flex flex-col divide-y divide-line p-1.5 sm:flex-row sm:items-center sm:divide-x sm:divide-y-0"
+            className="mb-6 flex flex-col divide-y sm:mb-8 divide-line p-1.5 md:flex-row md:items-center md:divide-x md:divide-y-0"
           >
             <SearchInput />
-            <CategoryFilter categories={categories} variant="select" />
-            <SortSelect />
+            <div className="flex divide-x divide-line">
+              <CategoryFilter categories={categories} variant="select" />
+              <SortSelect />
+            </div>
           </Glass>
 
           <ResultsRegion>

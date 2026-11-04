@@ -7,7 +7,7 @@ export function ProductGridSkeleton({ count = 12 }: { count?: number }) {
   return (
     <div className="grid grid-cols-1 gap-x-5 gap-y-6 sm:grid-cols-2 xl:grid-cols-3" aria-hidden="true">
       {Array.from({ length: count }, (_, i) => (
-        <div key={i} className="skeleton aspect-[4/5] rounded-[28px]" />
+        <div key={i} className="skeleton aspect-square sm:aspect-[4/5] rounded-[28px]" />
       ))}
     </div>
   );

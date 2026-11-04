@@ -96,7 +96,7 @@ export function CategoryFilter({
   );
 
   return (
-      <div className="flex min-w-0 items-center lg:hidden sm:w-56">
+      <div className="flex min-w-0 flex-1 items-center lg:hidden md:w-56 md:flex-none">
         <label htmlFor="category" className="sr-only">
           Category
         </label>

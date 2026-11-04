@@ -30,7 +30,7 @@ export function ProductCard({ product, priority }: { product: ProductSummary; pr
                 alt={title}
                 priority={priority}
                 sizes="(min-width: 1280px) 300px, (min-width: 640px) 45vw, 90vw"
-                className="aspect-[4/5]"
+                className="aspect-square sm:aspect-[4/5]"
                 liftBottom={24}
               />
             </div>

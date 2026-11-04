@@ -6,7 +6,7 @@ import { useCatalogueNav } from "./CatalogueNav";
 export function SortSelect() {
   const { query, navigate } = useCatalogueNav();
   return (
-    <div className="flex min-w-0 items-center sm:w-56">
+    <div className="flex min-w-0 flex-1 items-center md:w-56 md:flex-none">
       <label htmlFor="sort" className="sr-only">
         Sort
       </label>
