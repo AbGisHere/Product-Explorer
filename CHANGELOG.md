@@ -6,6 +6,10 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.11] - 2026-11-04
+### Changed
+- Dark mode contrast: product photo boxes have a faint hairline edge and a slightly lighter fill, the room is a touch lighter, and glass panels have a stronger rim and fill, so boxes no longer melt into the background on phones.
+
 ## [0.3.10] - 2026-11-04
 ### Changed
 - Phone layout: the header fits on one row (the title stacks onto two lines), category and sort sit side by side under the search, product photos are square instead of 4:5, and spacing is tighter. The first product is now fully visible at 375px. The toolbar stays stacked up to 768px so the search field isn't squeezed.

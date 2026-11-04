@@ -22,7 +22,7 @@ export function ProductCard({ product, priority }: { product: ProductSummary; pr
   return (
     <RoomLight className="h-full" productId={id} hero={hero}>
       <article className="group relative h-full">
-        <div className="relative overflow-hidden rounded-[28px] bg-well">
+        <div className="relative overflow-hidden rounded-[28px] bg-well shadow-[inset_0_0_0_1px_var(--well-rim)]">
           <FlipPhoto id={id}>
             <div className="transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]">
               <ProductImage

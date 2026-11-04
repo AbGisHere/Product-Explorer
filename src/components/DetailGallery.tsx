@@ -42,7 +42,7 @@ export function DetailGallery({
   const src = images[index] ?? null;
   return (
     <div>
-      <div className="relative overflow-hidden rounded-[36px] bg-well">
+      <div className="relative overflow-hidden rounded-[36px] bg-well shadow-[inset_0_0_0_1px_var(--well-rim)]">
         <FlipPhoto id={id} className="relative">
             {/* Same URL + sizes as the card, so it comes straight from the browser cache:
                 the morph flies the card photo into place, then the full-size photo fades in over it. */}
