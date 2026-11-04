@@ -66,7 +66,7 @@ describe("URL state integration", () => {
     renderControls({ q: "lamp", category: "beauty", page: 2 });
     expect(screen.getByRole("link", { name: "Next page" })).toHaveAttribute("href", "/?q=lamp&category=beauty&page=3");
     expect(screen.getByRole("link", { name: "Previous page" })).toHaveAttribute("href", "/?q=lamp&category=beauty");
-    expect(screen.getByText("2").closest("[aria-current]")).toHaveAttribute("aria-current", "page");
+    expect(document.querySelector("[aria-current=page]")).toHaveTextContent("Page 2");
   });
 
   it("restores controls when the URL changes externally (back/forward)", () => {

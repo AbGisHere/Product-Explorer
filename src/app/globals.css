@@ -360,6 +360,20 @@
   to { opacity: 1; transform: none; filter: none; }
 }
 
+/* New results settle in, card by card, instead of snapping over the old ones. */
+.swap > li {
+  animation: swap 520ms var(--ease-out-expo) both;
+}
+.swap > li:nth-child(2) { animation-delay: 40ms; }
+.swap > li:nth-child(3) { animation-delay: 80ms; }
+.swap > li:nth-child(4) { animation-delay: 120ms; }
+.swap > li:nth-child(5) { animation-delay: 160ms; }
+.swap > li:nth-child(n + 6) { animation-delay: 200ms; }
+@keyframes swap {
+  from { opacity: 0; transform: translateY(12px); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

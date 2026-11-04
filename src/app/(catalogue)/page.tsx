@@ -81,17 +81,18 @@ export default async function CataloguePage({ searchParams }: { searchParams: SP
               />
             ) : (
               <>
-                <ul className="grid grid-cols-1 gap-x-5 gap-y-6 sm:grid-cols-2 xl:grid-cols-3">
+                <ul key={buildQueryString({ ...query, page: result.page })} className="swap grid grid-cols-1 gap-x-5 gap-y-6 sm:grid-cols-2 xl:grid-cols-3">
                   {result.items.map((p, i) => (
                     <li key={p.id}>
                       <ProductCard product={toSummary(p)} priority={i < 3} />
                     </li>
                   ))}
                 </ul>
-                <Pagination page={result.page} totalPages={result.totalPages} />
               </>
             )}
           </ResultsRegion>
+          {/* Outside the dimmed region so its lens stays crisp while the next page loads */}
+          {result.total > 0 && <Pagination page={result.page} totalPages={result.totalPages} />}
         </section>
       </div>
     </CatalogueNavProvider>

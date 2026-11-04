@@ -6,6 +6,11 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.15] - 2026-11-04
+### Changed
+- Pagination: the current page is marked by a glass lens that glides to the page you click, the same way the category lens does. It moves at once instead of waiting for the server, and it carries an inverted copy of the labels so the number under it stays readable on every frame.
+- Page changes are smoother. The pager sits outside the dimmed results so it stays sharp while loading, the page scrolls smoothly back to the results heading, and the new cards settle in one after another instead of snapping in.
+
 ## [0.3.14] - 2026-11-04
 ### Changed
 - Header: clear glass instead of frosted. Blur drops from 2px to 0.7px and the curved rim narrows from 20px to 14px, so content stays sharp through the middle of the bar and bends, with colour fringes, only at the edges.
