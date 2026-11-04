@@ -6,6 +6,10 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-04
+### Fixed
+- The sticky category panel no longer slides under the header at the bottom of the page: its height is capped to the space between the header and the footer, and the list scrolls inside it.
+
 ## [0.2.0] - 2026-11-04
 ### Added
 - `PRODUCT.md`: the product record (audience, brief constraints, evidence, principles) used to guide design work.

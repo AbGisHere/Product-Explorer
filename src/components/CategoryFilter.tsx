@@ -33,11 +33,11 @@ export function CategoryFilter({
 
   if (variant === "sidebar") return (
       <nav aria-labelledby="cat-heading" className="hidden lg:block">
-        <Glass radius={26} bezel={18} bend={20} frost={2} className="sticky top-24 p-2">
+        <Glass radius={26} bezel={18} bend={20} frost={2} className="sticky top-24 flex max-h-[calc(100dvh-17rem)] flex-col p-2">
           <h2 id="cat-heading" className="tracked px-3 pb-2 pt-3 text-muted">
             Categories
           </h2>
-          <ul className="max-h-[calc(100dvh-11rem)] space-y-0.5 overflow-y-auto">
+          <ul className="min-h-0 flex-1 space-y-0.5 overflow-y-auto overscroll-contain">
             {items.map(([slug, label]) => {
               const active = query.category === slug;
               return (
