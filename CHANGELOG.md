@@ -6,6 +6,10 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.7] - 2026-11-04
+### Changed
+- Category sidebar: the selection is now a clear glass lens (lit rim, inner glow, refraction in Chromium) instead of a solid ink pill. It glides between categories on a slight spring the moment you click, without waiting for the server, and the chosen label nudges in.
+
 ## [0.3.6] - 2026-11-04
 ### Fixed
 - No box around the flying photo: v0.3.5 gave the flying copy a solid backing, which showed as a visible rectangle over the page. In light mode the copy is now the photo with its studio white turned into transparency (colour-to-alpha on a canvas), so it looks the same as the blended on-page photo over anything; in dark mode it is the plain photo, as on the page.

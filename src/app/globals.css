@@ -217,6 +217,16 @@
   background: radial-gradient(120% 80% at 18% -12%, var(--glass-sheen), transparent 55%);
   pointer-events: none;
 }
+/* A small clear lens that rides over a list (the selected category):
+   lit edges and an inner glow instead of a solid fill, so it reads as glass. */
+.lens {
+  background: color-mix(in oklab, var(--paper) 40%, transparent);
+  box-shadow:
+    inset 0 1px 1px var(--glass-rim),
+    inset 0 -1px 1px var(--glass-rim-low),
+    inset 0 0 8px var(--glass-sheen),
+    0 6px 16px -6px var(--glass-shade);
+}
 
 }
 
