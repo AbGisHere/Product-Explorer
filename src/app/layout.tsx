@@ -40,7 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-6 text-xs text-muted sm:px-6">
             <span>
               Product data from{" "}
-              <a href="https://dummyjson.com/docs/products" className="underline hover:text-ink">
+              <a href="https://dummyjson.com/docs/products" className="-my-3.5 inline-block py-3.5 underline hover:text-ink">
                 DummyJSON
               </a>
             </span>

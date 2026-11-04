@@ -1,6 +1,6 @@
 # Product Explorer
 
-**Version:** `v0.3.8`
+**Version:** `v0.3.9`
 
 A responsive product discovery app (GDG Tech Frontend Task II): browse the DummyJSON
 catalogue, search / filter / sort / paginate, view product details and save favourites,

@@ -78,11 +78,11 @@ export default async function ProductPage({ params }: { params: Params }) {
       <nav aria-label="Breadcrumb" className="mb-8 text-sm text-muted">
         <ol className="flex flex-wrap items-center gap-2">
           <li>
-            <BackToCatalogue className="rounded-full hover:text-ink">Catalogue</BackToCatalogue>
+            <BackToCatalogue className="-mx-1 -my-3.5 inline-block rounded-full px-1 py-3.5 hover:text-ink">Catalogue</BackToCatalogue>
           </li>
           <li aria-hidden="true" className="text-quiet">/</li>
           <li>
-            <Link href={`/?category=${p.category}`} className="rounded-full hover:text-ink">
+            <Link href={`/?category=${p.category}`} className="-mx-1 -my-3.5 inline-block rounded-full px-1 py-3.5 hover:text-ink">
               {formatCategory(p.category)}
             </Link>
           </li>

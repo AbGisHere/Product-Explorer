@@ -81,7 +81,7 @@ export function CategoryFilter({
                     onClick={(e) => onClick(e, slug)}
                     aria-current={active ? "page" : undefined}
                     scroll={false}
-                    className={`block rounded-full px-3 py-2 text-sm transition-[color,background-color,translate] duration-300 ease-out-expo ${
+                    className={`block rounded-full px-3 py-2 text-sm pointer-coarse:py-3 transition-[color,background-color,translate] duration-300 ease-out-expo ${
                       active ? "translate-x-1 font-medium text-ink" : "text-muted hover:bg-veil/60 hover:text-ink"
                     }`}
                   >

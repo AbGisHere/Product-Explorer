@@ -6,6 +6,10 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.9] - 2026-11-04
+### Changed
+- Touch targets: the detail-page breadcrumb links and the footer DummyJSON link now have a 44px tap height without changing the layout. On touch screens at 1024px and wider, the category sidebar rows are taller.
+
 ## [0.3.8] - 2026-11-04
 ### Fixed
 - Photo flight on high-density (Retina) screens in light mode: the flying copy showed only an enlarged, faint corner of the photo. With srcset, the browser reports a 2x photo at half its real pixel size, and the copy was drawn unscaled. It is now scaled to the canvas, so the whole photo flies.
