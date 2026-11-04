@@ -380,6 +380,15 @@
   background: color-mix(in oklab, var(--paper) 72%, transparent);
 }
 
+/* Unfolded pager strip: scrolls sideways with no scrollbar, numbers fade out at the edges. */
+.pager-open {
+  scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+  animation: pop 320ms var(--ease-out-expo) both;
+}
+.pager-open::-webkit-scrollbar { display: none; }
+
 /* Glass dropdown opens with a short drop-and-settle. */
 .pop {
   animation: pop 320ms var(--ease-out-expo) both;
