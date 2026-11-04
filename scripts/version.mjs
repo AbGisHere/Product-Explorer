@@ -2,7 +2,7 @@
 /**
  * Single source of truth for versioning. The version lives in package.json and
  * is mirrored in: package-lock.json, CHANGELOG.md (top release heading) and
- * README.md (the "Version:" line). The UI footer reads package.json directly.
+ * README.md (the version badge). The UI footer reads package.json directly.
  *
  *   node scripts/version.mjs check            verify every place agrees (CI + pre-push)
  *   node scripts/version.mjs bump <patch|minor|major>
@@ -23,7 +23,7 @@ function locations() {
     "package-lock.json": lock.version,
     "package-lock.json (root package)": lock.packages?.[""]?.version,
     "CHANGELOG.md": read("CHANGELOG.md").match(/^## \[(\d+\.\d+\.\d+)\]/m)?.[1],
-    "README.md": read("README.md").match(/^\*\*Version:\*\* `?v?(\d+\.\d+\.\d+)`?/m)?.[1],
+    "README.md": read("README.md").match(/img\.shields\.io\/badge\/version-v(\d+\.\d+\.\d+)-/)?.[1],
   };
 }
 
@@ -65,7 +65,7 @@ function bump(kind) {
   );
   writeFileSync(
     "README.md",
-    read("README.md").replace(/^\*\*Version:\*\* .*$/m, `**Version:** \`v${v}\``),
+    read("README.md").replace(/(img\.shields\.io\/badge\/version-v)\d+\.\d+\.\d+-/, `$1${v}-`),
   );
   console.log(`✔ Bumped to v${v}. Commit with: <type>(v${v}): <description>`);
 }

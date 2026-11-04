@@ -1,12 +1,22 @@
 # Product Explorer
 
-**Version:** `v1.0.1`
+[![Version](https://img.shields.io/badge/version-v1.0.2-18181b?style=flat-square)](CHANGELOG.md)
+[![Release](https://img.shields.io/github/v/tag/AbGisHere/Product-Explorer?label=release&style=flat-square&color=18181b)](https://github.com/AbGisHere/Product-Explorer/tags)
+[![CI](https://img.shields.io/github/actions/workflow/status/AbGisHere/Product-Explorer/ci.yml?branch=main&label=CI&style=flat-square)](https://github.com/AbGisHere/Product-Explorer/actions/workflows/ci.yml)
+[![Live](https://img.shields.io/website?url=https%3A%2F%2Fpm.abgupta.me&label=live&up_message=pm.abgupta.me&style=flat-square)](https://pm.abgupta.me)
+[![Tests](https://img.shields.io/badge/tests-30%20passing-2ea44f?style=flat-square)](#testing--verification)
+[![Cache evidence](https://img.shields.io/badge/cache%20evidence-14%2F14-2ea44f?style=flat-square)](evidence/cache-evidence.md)
+
+[![Next.js](https://img.shields.io/badge/Next.js-16.4.5-000?style=flat-square&logo=nextdotjs)](https://nextjs.org)
+[![React](https://img.shields.io/badge/React-19.3.0-149eca?style=flat-square&logo=react&logoColor=white)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178c6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3.4-06b6d4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Vitest](https://img.shields.io/badge/Vitest-3.2.7-6e9f18?style=flat-square&logo=vitest&logoColor=white)](https://vitest.dev)
+[![Data: DummyJSON](https://img.shields.io/badge/data-DummyJSON-555?style=flat-square)](https://dummyjson.com)
 
 A responsive product discovery app (GDG Tech Frontend Task II): browse the DummyJSON
 catalogue, search / filter / sort / paginate, view product details and save favourites,
 with an explicit, **proven** server-side caching strategy.
-
-Built with **Next.js 16 App Router · React 19 · TypeScript · Tailwind CSS 4**.
 
 **Live:** [pm.abgupta.me](https://pm.abgupta.me)
 

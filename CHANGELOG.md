@@ -6,6 +6,10 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-04
+### Docs
+- README header uses badges instead of a text version line. The badges show the version, latest release tag, CI status, live site, tests, cache evidence, the stack versions and the data source. `npm run release` and `version:check` now read and update the version badge.
+
 ## [1.0.1] - 2026-11-04
 ### Docs
 - README links the live site ([pm.abgupta.me](https://pm.abgupta.me)) and adds a Screenshots section: the catalogue at 375 / 768 / 1280 px in both themes, the product page, the combined filters, the saved view, empty results, the 404 and the phone controls. Images are in `evidence/screenshots/`, captured from production.
