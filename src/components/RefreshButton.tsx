@@ -28,7 +28,7 @@ export function RefreshButton() {
         <RefreshIcon className={`size-4 ${pending ? "animate-spin" : ""}`} />
         <span className="max-sm:sr-only">{pending ? "Refreshing…" : "Refresh catalogue"}</span>
       </button>
-      <p role="status" aria-live="polite" className="pointer-events-none absolute right-0 top-[calc(100%+14px)] whitespace-nowrap text-xs">
+      <p role="status" aria-live="polite" className="pointer-events-none absolute right-0 top-[calc(100%+22px)] whitespace-nowrap text-xs">
         {result?.ok && (
           <span className="rounded-full bg-ink px-3 py-1.5 text-room">
             Catalogue updated {new Date(result.at).toLocaleTimeString()}

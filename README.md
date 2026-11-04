@@ -1,6 +1,6 @@
 # Product Explorer
 
-**Version:** `v0.3.1`
+**Version:** `v0.3.2`
 
 A responsive product discovery app (GDG Tech Frontend Task II): browse the DummyJSON
 catalogue, search / filter / sort / paginate, view product details and save favourites,
@@ -77,8 +77,9 @@ The normal API integration is untouched; fixture mode is a branch inside the sam
 src/
   app/
     layout.tsx              Root shell: skip link, Header, <main>, footer
-    page.tsx                Catalogue (Server Component): fetch → validate URL → filter/sort/paginate
-    loading.tsx error.tsx not-found.tsx
+    (catalogue)/page.tsx    Catalogue (Server Component): fetch → validate URL → filter/sort/paginate
+    (catalogue)/loading.tsx catalogue skeleton, scoped by the route group so product pages never suspend into it
+    error.tsx not-found.tsx
     actions.ts              "use server" refreshCatalogue (updateTag)
     api/refresh/route.ts    POST twin of the action for scripts/curl
     products/[id]/          page.tsx (+ generateMetadata), error, not-found

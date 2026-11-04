@@ -6,6 +6,12 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-11-04
+### Fixed
+- Card → detail morph now actually plays. The catalogue's root `loading.tsx` also wrapped product pages, so opening a product suspended into the catalogue skeleton and React never formed the shared-element pair. The catalogue page and its skeleton moved into a `(catalogue)` route group (URLs unchanged).
+- Moving the pointer or focus off a product returns the room's light to neutral.
+- The "Catalogue updated" message sits below the header bar instead of on its edge.
+
 ## [0.3.1] - 2026-11-04
 ### Fixed
 - Theme switch no longer "changes twice": CSS transitions (room tint, control colours) are suspended while the circular reveal runs, so the revealed theme is already final when it completes.
