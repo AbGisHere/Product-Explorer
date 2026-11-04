@@ -5,13 +5,14 @@ import { useLayoutEffect, useRef, useState, type MouseEvent } from "react";
 import { formatCategory } from "@/lib/catalogue";
 import { useCatalogueNav } from "./CatalogueNav";
 import { Glass } from "./glass/Glass";
+import { GlassSelect } from "./GlassSelect";
 
 /** The lens glide (same spring as the reference tab bar). */
 const EASE = "cubic-bezier(0.32, 1.08, 0.5, 1)";
 
 /**
  * Desktop (lg+): sidebar list of real links (works without JS, middle-click,
- * aria-current). Below lg: a native <select>, the most usable mobile picker.
+ * aria-current). Below lg: a glass dropdown (GlassSelect).
  */
 export function CategoryFilter({
   categories,
@@ -102,7 +103,7 @@ export function CategoryFilter({
                   }}
                 >
                   {items.map(([slug, label]) => (
-                    <div key={slug ?? "all"} className="px-3 py-2 text-sm font-medium text-room pointer-coarse:py-3">
+                    <div key={slug ?? "all"} className="px-3 py-2 text-sm font-medium text-ink pointer-coarse:py-3">
                       {label}
                     </div>
                   ))}
@@ -115,22 +116,12 @@ export function CategoryFilter({
   );
 
   return (
-      <div className="flex min-w-0 flex-1 items-center lg:hidden md:w-56 md:flex-none">
-        <label htmlFor="category" className="sr-only">
-          Category
-        </label>
-        <select
-          id="category"
-          value={query.category ?? ""}
-          onChange={(e) => navigate({ category: e.target.value || null })}
-          className="field cursor-pointer"
-        >
-          {items.map(([slug, label]) => (
-            <option key={slug ?? "all"} value={slug ?? ""}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </div>
+    <GlassSelect
+      label="Category"
+      value={query.category ?? ""}
+      options={items.map(([slug, label]) => [slug ?? "", label] as const)}
+      onChange={(v) => navigate({ category: v || null })}
+      className="flex-1 lg:hidden md:w-56 md:flex-none"
+    />
   );
 }

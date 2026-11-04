@@ -56,9 +56,12 @@ describe("URL state integration", () => {
 
   it("sort and category changes write the URL and reset the page", () => {
     renderControls({ q: "lamp", page: 2 });
-    fireEvent.change(screen.getByLabelText("Sort"), { target: { value: "price-asc" } });
+    fireEvent.click(screen.getByRole("combobox", { name: "Sort" }));
+    fireEvent.click(screen.getByRole("option", { name: /price: low to high/i }));
     expect(push).toHaveBeenLastCalledWith("/?q=lamp&sort=price-asc", { scroll: false });
-    fireEvent.change(screen.getByLabelText("Category"), { target: { value: "furniture" } });
+    fireEvent.keyDown(screen.getByRole("combobox", { name: "Category" }), { key: "ArrowDown" });
+    fireEvent.keyDown(screen.getByRole("listbox"), { key: "f" });
+    fireEvent.keyDown(screen.getByRole("listbox"), { key: "Enter" });
     expect(push).toHaveBeenLastCalledWith("/?q=lamp&category=furniture", { scroll: false });
   });
 
@@ -74,7 +77,7 @@ describe("URL state integration", () => {
     expect(screen.getByLabelText(/search products/i)).toHaveValue("phone");
     rerenderWith({ q: "lamp", sort: "title-asc" });
     expect(screen.getByLabelText(/search products/i)).toHaveValue("lamp");
-    expect(screen.getByLabelText("Sort")).toHaveValue("title-asc");
+    expect(screen.getByRole("combobox", { name: "Sort" })).toHaveTextContent(/a.?z|title/i);
     act(() => vi.advanceTimersByTime(500));
     expect(push).not.toHaveBeenCalled(); // restoring must not trigger a new navigation
   });

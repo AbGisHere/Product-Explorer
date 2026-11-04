@@ -32,7 +32,7 @@ type GoFn = (e: MouseEvent, p: number) => void;
 function Row({ page, totalPages, go, hrefFor, ghost }: {
   page: number; totalPages: number; go: GoFn; hrefFor: (p: number) => string; ghost?: boolean;
 }) {
-  const tone = ghost ? "text-room" : "text-muted hover:bg-veil hover:text-ink";
+  const tone = ghost ? "text-ink" : "text-muted hover:bg-veil hover:text-ink";
   const link = (p: number, label: string | undefined, children: ReactNode) =>
     ghost ? <span className={`${item} ${tone}`}>{children}</span> : (
       <Link href={hrefFor(p)} onClick={(e) => go(e, p)} scroll={false} aria-label={label} className={`${item} ${tone}`}>
@@ -40,7 +40,7 @@ function Row({ page, totalPages, go, hrefFor, ghost }: {
       </Link>
     );
   const disabled = (children: ReactNode) => (
-    <span aria-disabled={ghost ? undefined : "true"} className={`${item} ${ghost ? "text-room opacity-60" : "text-quiet opacity-60"}`}>{children}</span>
+    <span aria-disabled={ghost ? undefined : "true"} className={`${item} ${ghost ? "text-ink opacity-60" : "text-quiet opacity-60"}`}>{children}</span>
   );
   const List = ghost ? "div" : "ul";
   const Li = ghost ? "div" : "li";
@@ -51,11 +51,11 @@ function Row({ page, totalPages, go, hrefFor, ghost }: {
       <List className="flex items-center gap-1">
         {pageWindow(page, totalPages).map((p, i) =>
           p === "…" ? (
-            <Li key={`gap-${i}`} aria-hidden="true" className={`px-1 ${ghost ? "text-room" : "text-muted"}`}>…</Li>
+            <Li key={`gap-${i}`} aria-hidden="true" className={`px-1 ${ghost ? "text-ink" : "text-muted"}`}>…</Li>
           ) : (
             <Li key={p} data-page={ghost ? undefined : p} className={p === page ? "" : "hidden sm:block"}>
               {p === page ? (
-                <span aria-current={ghost ? undefined : "page"} className={`${item} font-medium ${ghost ? "text-room" : "text-ink"}`}>
+                <span aria-current={ghost ? undefined : "page"} className={`${item} font-medium ${ghost ? "text-ink" : "text-ink"}`}>
                   {!ghost && <span className="sr-only">Page </span>}{p}
                 </span>
               ) : (

@@ -6,6 +6,11 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.16] - 2026-11-04
+### Changed
+- Category (on phones and tablets) and Sort are now glass dropdowns instead of the system pickers. The same gliding lens follows your pointer or the arrow keys, with a check mark on the current choice. Full keyboard support: arrows, Home/End, Page Up/Down, Enter/Space, Escape and type-to-jump. Screen readers get the standard combobox and listbox roles. The panel opens upward when there isn't room below.
+- The lens is more visible: same-tone glass (white on light, black on dark) with a crisper lit rim, an outline and a drop shadow.
+
 ## [0.3.15] - 2026-11-04
 ### Changed
 - Pagination: the current page is marked by a glass lens that glides to the page you click, the same way the category lens does. It moves at once instead of waiting for the server, and it carries an inverted copy of the labels so the number under it stays readable on every frame.
