@@ -6,6 +6,15 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.4] - 2026-11-04
+### Changed
+- **Photo morph no longer uses View Transitions.** Chrome shows the page as snapshots during a view transition and doesn't draw the glass refraction in them, so glass flashed clear and popped back in afterwards. The card ↔ detail morph is now a FLIP flight of a clone of the real photo (`FlipPhoto`), so the live page and glass stay on screen throughout. It works in both directions, including the browser back button and swipe, and survives React Strict Mode's dev-only double mount (which used to cancel the flight in `npm run dev`).
+- **Theme switch is now a palette morph instead of the circular reveal.** Every colour token is a registered `<color>` custom property, so the page, room and live glass ease from one theme to the other together (650 ms), with nothing popping in afterwards.
+- The detail panel's entrance is a plain CSS animation.
+
+### Fixed
+- No more resolution snap when the photo lands: the flying clone cross-fades into the real photo, and on the detail page the card thumbnail stays underneath until the full-size photo has fully faded in.
+
 ## [0.3.3] - 2026-11-04
 ### Changed
 - **Refresh catalogue** folds from a pill into a circle on first press, with "Refreshed at 2:34 PM" (or the failure) beside it; pressing the circle refreshes again and updates the time.

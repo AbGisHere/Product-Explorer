@@ -7,6 +7,7 @@ export type Theme = "light" | "dark";
 export { THEME_KEY };
 
 const listeners = new Set<() => void>();
+let morphTimer: ReturnType<typeof setTimeout> | undefined;
 
 function current(): Theme {
   const set = document.documentElement.dataset.theme;
@@ -25,35 +26,22 @@ function subscribe(cb: () => void) {
 }
 
 /** null on the server and first client render (no hydration mismatch). */
-export function useTheme(): [Theme | null, (t: Theme, origin?: { x: number; y: number }) => void] {
+export function useTheme(): [Theme | null, (t: Theme) => void] {
   const theme = useSyncExternalStore<Theme | null>(subscribe, current, () => null);
-  const set = (t: Theme, origin?: { x: number; y: number }) => {
-    const apply = () => {
-      document.documentElement.dataset.theme = t;
-      try {
-        localStorage.setItem(THEME_KEY, t);
-      } catch {
-        /* storage blocked: the theme still applies for this visit */
-      }
-      listeners.forEach((l) => l());
-    };
-    // The new theme spreads out as a circle from the toggle (View Transitions API).
-    // No API support or reduced motion: switch instantly.
+  const set = (t: Theme) => {
     const root = document.documentElement;
-    if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) return apply();
-    const { x, y } = origin ?? { x: innerWidth / 2, y: innerHeight / 2 };
-    const end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-    root.classList.add("theme-vt");
-    const vt = document.startViewTransition(apply);
-    vt.ready
-      .then(() =>
-        root.animate(
-          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${end}px at ${x}px ${y}px)`] },
-          { duration: 700, easing: "cubic-bezier(0.4, 0, 0.2, 1)", pseudoElement: "::view-transition-new(root)" },
-        ),
-      )
-      .catch(() => {});
-    vt.finished.finally(() => root.classList.remove("theme-vt"));
+    // .theme-morph turns on transitions for the colour tokens (globals.css), so
+    // the whole palette eases across while the glass stays live.
+    root.classList.add("theme-morph");
+    root.dataset.theme = t;
+    try {
+      localStorage.setItem(THEME_KEY, t);
+    } catch {
+      /* storage blocked: the theme still applies for this visit */
+    }
+    listeners.forEach((l) => l());
+    clearTimeout(morphTimer);
+    morphTimer = setTimeout(() => root.classList.remove("theme-morph"), 700);
   };
   return [theme, set];
 }

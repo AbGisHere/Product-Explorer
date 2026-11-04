@@ -107,6 +107,51 @@
   --room-strength: 55%;
 }
 
+/* ---------- Theme morph ----------
+   Every colour token is a registered <color>, so switching theme interpolates
+   the whole palette in place: the page, the room and the live glass all ease
+   from one theme to the other together (no snapshots, nothing pops in after). */
+@property --room { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --ink { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --muted { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --quiet { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --line { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --veil { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --well { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --paper { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --danger { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --success { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --glass-fill { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --glass-rim { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --glass-rim-low { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --glass-sheen { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --glass-shade { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --tint-a { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --tint-b { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --tint-c { syntax: "<color>"; inherits: true; initial-value: transparent; }
+
+:root.theme-morph {
+  transition:
+    --room 650ms var(--ease-out-expo),
+    --ink 650ms var(--ease-out-expo),
+    --muted 650ms var(--ease-out-expo),
+    --quiet 650ms var(--ease-out-expo),
+    --line 650ms var(--ease-out-expo),
+    --veil 650ms var(--ease-out-expo),
+    --well 650ms var(--ease-out-expo),
+    --paper 650ms var(--ease-out-expo),
+    --danger 650ms var(--ease-out-expo),
+    --success 650ms var(--ease-out-expo),
+    --glass-fill 650ms var(--ease-out-expo),
+    --glass-rim 650ms var(--ease-out-expo),
+    --glass-rim-low 650ms var(--ease-out-expo),
+    --glass-sheen 650ms var(--ease-out-expo),
+    --glass-shade 650ms var(--ease-out-expo),
+    --tint-a 650ms var(--ease-out-expo),
+    --tint-b 650ms var(--ease-out-expo),
+    --tint-c 650ms var(--ease-out-expo);
+}
+
 /* ---------- The room ---------- */
 
 @property --room-a { syntax: "<color>"; inherits: false; initial-value: #b9bfd0; }
@@ -266,50 +311,18 @@
 }
 
 /* Theme switch: the new theme is revealed by a growing circle (clip-path set from JS), no crossfade. */
-/* While the theme swaps, nothing else may animate: otherwise the room tint and
-   control colours keep easing after the circle finishes, so the page changes twice. */
-html.theme-vt *,
-html.theme-vt *::before,
-html.theme-vt *::after {
-  transition: none !important;
-}
-html.theme-vt::view-transition-old(root),
-html.theme-vt::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-
-/* Card -> detail morph (React <ViewTransition share="morph">). */
-::view-transition-group(.morph) {
-  animation-duration: 600ms;
-  animation-timing-function: cubic-bezier(0.2, 0.9, 0.1, 1);
-}
-::view-transition-image-pair(.morph) {
-  animation-name: via-blur;
-}
-@keyframes via-blur {
-  35% { filter: blur(3px); }
-}
-::view-transition-new(.rise) {
+/* Detail panel arrives a beat after the photo lands. */
+.rise {
   animation: rise 560ms var(--ease-out-expo) 140ms both;
-}
-::view-transition-old(.rise) {
-  animation: fade-out 160ms ease-out both;
 }
 @keyframes rise {
   from { opacity: 0; transform: translateY(20px); filter: blur(8px); }
   to { opacity: 1; transform: none; filter: none; }
-}
-@keyframes fade-out {
-  to { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
-  }
-  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) {
-    animation: none !important;
   }
 }

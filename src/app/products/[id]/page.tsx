@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import { getProduct } from "@/lib/api";
 import { formatCategory, formatPrice } from "@/lib/catalogue";
-import { ViewTransition } from "react";
 import { BackToCatalogue } from "@/components/BackToCatalogue";
 import { DetailGallery } from "@/components/DetailGallery";
 import { Glass } from "@/components/glass/Glass";
@@ -95,8 +94,7 @@ export default async function ProductPage({ params }: { params: Params }) {
       <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-12">
         <DetailGallery id={p.id} title={p.title} images={images} thumbnail={p.thumbnail} />
 
-        <ViewTransition enter="rise" exit="rise" default="none">
-          <Glass radius={34} bezel={24} bend={26} frost={2.5} className="p-7 sm:p-9 lg:sticky lg:top-24">
+          <Glass radius={34} bezel={24} bend={26} frost={2.5} className="rise p-7 sm:p-9 lg:sticky lg:top-24">
             <h1 className="display text-balance text-[clamp(1.75rem,3.4vw,2.75rem)] leading-[0.98] break-words">
               {p.title}
             </h1>
@@ -122,7 +120,6 @@ export default async function ProductPage({ params }: { params: Params }) {
               <BackToCatalogue className="btn">Back to catalogue</BackToCatalogue>
             </div>
           </Glass>
-        </ViewTransition>
       </div>
     </article>
   );
