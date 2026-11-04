@@ -1,69 +1,87 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import { getCatalogue } from "@/lib/api";
+import { applyQuery, buildQueryString, deriveCategories, formatCategory, parseQuery } from "@/lib/catalogue";
+import { toSummary } from "@/lib/types";
+import { CatalogueNavProvider, ResultsRegion, ResultsSummary } from "@/components/CatalogueNav";
+import { CategoryFilter } from "@/components/CategoryFilter";
+import { Pagination } from "@/components/Pagination";
+import { ProductCard } from "@/components/ProductCard";
+import { SearchInput } from "@/components/SearchInput";
+import { SortSelect } from "@/components/SortSelect";
+import { EmptyResults } from "@/components/states";
 
-export default function Home() {
+type SP = Promise<Record<string, string | string[] | undefined>>;
+
+export async function generateMetadata({ searchParams }: { searchParams: SP }): Promise<Metadata> {
+  const sp = await searchParams;
+  return { title: sp.saved !== undefined ? "Saved products" : "Catalogue" };
+}
+
+/**
+ * Server Component. Fetches the FULL catalogue (shared 60 s cache entry),
+ * validates the URL, then filter -> sort -> paginate on the server.
+ * Only the 12 visible products (as slim summaries) + category list are sent
+ * to the client. Upstream failures throw -> app/error.tsx (retry).
+ */
+export default async function CataloguePage({ searchParams }: { searchParams: SP }) {
+  const products = await getCatalogue();
+  const categories = deriveCategories(products);
+  const query = parseQuery(await searchParams, categories);
+  const result = applyQuery(products, query);
+  const savedView = query.saved !== null;
+
+  const heading = savedView
+    ? "Saved products"
+    : query.category
+      ? formatCategory(query.category)
+      : "All products";
+
+  const summary =
+    result.total === 0
+      ? "No matching products"
+      : `Showing ${result.start}–${result.end} of ${result.total} matching product${result.total === 1 ? "" : "s"}`;
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+    <CatalogueNavProvider query={{ ...query, page: result.page }}>
+      <div className="lg:grid lg:grid-cols-[15rem_1fr] lg:gap-6">
+        <CategoryFilter categories={categories} variant="sidebar" />
+
+        <section aria-labelledby="results-heading" className="min-w-0">
+          <h1 id="results-heading" className="mb-4 scroll-mt-24 text-2xl font-semibold tracking-tight">
+            {heading}
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+          <div role="search" className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:flex-nowrap">
+            <SearchInput />
+            <CategoryFilter categories={categories} variant="select" />
+            <SortSelect />
+          </div>
+
+          <div className="mb-4 mt-4">
+            <ResultsSummary text={summary} />
+          </div>
+
+          <ResultsRegion>
+            {result.total === 0 ? (
+              <EmptyResults
+                savedView={savedView}
+                resetHref={"/" + buildQueryString({ saved: query.saved })}
+              />
+            ) : (
+              <>
+                <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                  {result.items.map((p, i) => (
+                    <li key={p.id}>
+                      <ProductCard product={toSummary(p)} priority={i < 3} />
+                    </li>
+                  ))}
+                </ul>
+                <Pagination page={result.page} totalPages={result.totalPages} />
+              </>
+            )}
+          </ResultsRegion>
+        </section>
+      </div>
+    </CatalogueNavProvider>
   );
 }

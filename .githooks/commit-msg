@@ -1,0 +1,26 @@
+#!/bin/sh
+# Enforce: <type>(v<MAJOR.MINOR.PATCH>): <description>
+# e.g.     feat(v0.2.0): add dark theme
+# The version must equal package.json's version. Merge/revert commits are allowed.
+msg_file="$1"
+first_line=$(head -n1 "$msg_file")
+
+case "$first_line" in
+  Merge\ *|Revert\ *|fixup!*|squash!*) exit 0 ;;
+esac
+
+pattern='^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)\(v[0-9]+\.[0-9]+\.[0-9]+\)!?: .{3,}'
+if ! printf '%s' "$first_line" | grep -Eq "$pattern"; then
+  echo "✖ Commit message must look like:  feat(v1.2.3): short description"
+  echo "  types: feat fix docs style refactor perf test build ci chore revert"
+  echo "  got:   $first_line"
+  exit 1
+fi
+
+msg_version=$(printf '%s' "$first_line" | sed -E 's/^[a-z]+\(v([0-9.]+)\).*/\1/')
+pkg_version=$(node -p "require('./package.json').version")
+if [ "$msg_version" != "$pkg_version" ]; then
+  echo "✖ Commit says v$msg_version but package.json is v$pkg_version."
+  echo "  Bump first:  npm run release -- <patch|minor|major>"
+  exit 1
+fi

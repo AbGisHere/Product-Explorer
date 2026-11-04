@@ -1,0 +1,25 @@
+#!/bin/sh
+# Block a push unless the version was bumped (vs. the remote branch) and is
+# consistent everywhere. Also blocks pushing a version whose tag already exists.
+set -e
+node scripts/version.mjs check
+
+version=$(node -p "require('./package.json').version")
+while read -r local_ref local_sha remote_ref remote_sha; do
+  case "$local_ref" in refs/tags/*) continue ;; esac
+  [ "$local_sha" = "0000000000000000000000000000000000000000" ] && continue  # branch delete
+
+  if git ls-remote --exit-code --tags "$1" "refs/tags/v$version" >/dev/null 2>&1; then
+    echo "✖ v$version is already released (tag exists on remote). Bump: npm run release -- patch"
+    exit 1
+  fi
+  if [ "$remote_sha" != "0000000000000000000000000000000000000000" ] && git cat-file -e "$remote_sha" 2>/dev/null; then
+    remote_version=$(git show "$remote_sha:package.json" | node -p "JSON.parse(require('fs').readFileSync(0)).version")
+    if [ "$remote_version" = "$version" ]; then
+      echo "✖ Version not bumped: remote ${remote_ref#refs/heads/} is already v$version."
+      echo "  Run: npm run release -- <patch|minor|major>  (and commit)"
+      exit 1
+    fi
+  fi
+done
+echo "✔ pre-push: v$version"

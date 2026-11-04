@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint · Typecheck · Test · Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Version consistent everywhere
+        run: npm run version:check
+      - name: Commit messages follow <type>(vX.Y.Z) convention
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch --no-tags origin ${{ github.base_ref }}
+          bad=0
+          for sha in $(git rev-list origin/${{ github.base_ref }}..HEAD --no-merges); do
+            subject=$(git log -1 --format=%s "$sha")
+            echo "$subject" | grep -Eq '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)\(v[0-9]+\.[0-9]+\.[0-9]+\)!?: .{3,}' \
+              || { echo "::error::Bad commit message: $subject"; bad=1; }
+          done
+          exit $bad
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  cache-evidence:
+    name: Cache evidence (production build vs mock origin)
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Run cache scenarios (~70 s)
+        run: npm run evidence
+      - name: Publish evidence to job summary
+        if: always()
+        run: cat evidence/cache-evidence.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cache-evidence
+          path: evidence/cache-evidence.md
