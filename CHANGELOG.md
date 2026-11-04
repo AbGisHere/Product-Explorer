@@ -6,6 +6,10 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-11-04
+### Fixed
+- Theme switch no longer "changes twice": CSS transitions (room tint, control colours) are suspended while the circular reveal runs, so the revealed theme is already final when it completes.
+
 ## [0.3.0] - 2026-11-04
 ### Changed
 - Opening a product is instant: product pages are statically generated on first visit and revalidated every 60 s (ISR), so `<Link>` prefetches them in full and the card photo morphs straight into the detail hero. A thin light sweeps along the card caption if a page wasn't prefetched yet.

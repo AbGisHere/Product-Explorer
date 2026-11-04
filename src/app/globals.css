@@ -266,6 +266,13 @@
 }
 
 /* Theme switch: the new theme is revealed by a growing circle (clip-path set from JS), no crossfade. */
+/* While the theme swaps, nothing else may animate: otherwise the room tint and
+   control colours keep easing after the circle finishes, so the page changes twice. */
+html.theme-vt *,
+html.theme-vt *::before,
+html.theme-vt *::after {
+  transition: none !important;
+}
 html.theme-vt::view-transition-old(root),
 html.theme-vt::view-transition-new(root) {
   animation: none;
