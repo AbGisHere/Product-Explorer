@@ -1,6 +1,6 @@
 # Product Explorer
 
-**Version:** `v0.2.1`
+**Version:** `v0.3.0`
 
 A responsive product discovery app (GDG Tech Frontend Task II): browse the DummyJSON
 catalogue, search / filter / sort / paginate, view product details and save favourites,
@@ -131,6 +131,7 @@ tests/              unit/ + integration/
 - **One catalogue entry for every view.** Every search, filter, sort, page or saved URL calls the *same* fetch, so they share one cache entry. Filtering happens in memory after the cached fetch.
 - **The 60-second timer serves stale data while refreshing.** After 60 s, the next request gets the stale copy immediately and starts a background refetch; the request after that gets the fresh data. (See rows 7–8 of the evidence.)
 - **Manual refresh blocks for fresh data.** The **Refresh catalogue** button calls a Server Action that runs `updateTag("catalogue")`. This expires the entry immediately, so the next read waits for the origin, and the action fetches from the origin itself before reporting success or failure. Next then re-renders the current route with the new data in the same response. `POST /api/refresh` does the same through `revalidateTag("catalogue", { expire: 0 })` (`updateTag` only works in Server Actions) and is what the evidence script uses.
+- **Product pages are also route-cached (ISR).** `/products/[id]` exports `revalidate = 60` and an empty `generateStaticParams`, so each product page is rendered on its first visit and kept for 60 s, on top of its Data Cache entry. That lets `<Link>` prefetch the whole page, so opening a product is instant and the image morph works. Both layers use the same 60 s window, so this doesn't change when product data refreshes (the evidence still passes).
 - **Failures are not cached.** A failed fetch throws and stores nothing, so every retry goes back to the origin.
 - **Duplicate fetches in one render are removed.** `generateMetadata` and the detail page share one call through React `cache()`.
 

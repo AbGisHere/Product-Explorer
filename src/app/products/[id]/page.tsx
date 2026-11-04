@@ -27,6 +27,17 @@ const load = cache(async (rawId: string) => {
   return product;
 });
 
+/*
+ * Product pages are statically rendered on first request and kept for 60 s
+ * (ISR), on top of the per-product Data Cache entry. A static page can be
+ * prefetched in full by <Link>, so opening a product is instant and the
+ * card -> detail morph pairs in the same commit.
+ */
+export const revalidate = 60;
+export async function generateStaticParams() {
+  return []; // nothing at build time; each product is generated on first visit
+}
+
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const p = await load((await params).id);
   const description = p.description.slice(0, 160) || `${p.title}, ${formatPrice(p.price)}`;

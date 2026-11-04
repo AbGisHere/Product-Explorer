@@ -6,6 +6,14 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-04
+### Changed
+- Opening a product is instant: product pages are statically generated on first visit and revalidated every 60 s (ISR), so `<Link>` prefetches them in full and the card photo morphs straight into the detail hero. A thin light sweeps along the card caption if a page wasn't prefetched yet.
+- The light/dark toggle reveals the new theme as a circle growing from the button (View Transitions API; instant with reduced motion or no support).
+
+### Fixed
+- **Saved** now toggles: pressing it while the saved view is open returns to all products.
+
 ## [0.2.1] - 2026-11-04
 ### Fixed
 - The sticky category panel no longer slides under the header at the bottom of the page: its height is capped to the space between the header and the footer, and the list scrolls inside it.

@@ -265,6 +265,13 @@
   animation: press 300ms var(--ease-out-expo);
 }
 
+/* Theme switch: the new theme is revealed by a growing circle (clip-path set from JS), no crossfade. */
+html.theme-vt::view-transition-old(root),
+html.theme-vt::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 /* Card -> detail morph (React <ViewTransition share="morph">). */
 ::view-transition-group(.morph) {
   animation-duration: 600ms;

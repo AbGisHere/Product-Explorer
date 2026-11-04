@@ -3,6 +3,7 @@ import { ViewTransition } from "react";
 import type { ProductSummary } from "@/lib/types";
 import { formatCategory, formatPrice } from "@/lib/catalogue";
 import { Glass } from "./glass/Glass";
+import { LinkPending } from "./LinkPending";
 import { ProductImage } from "./ProductImage";
 import { RoomLight } from "./RoomLight";
 import { SaveToggle } from "./SaveToggle";
@@ -49,6 +50,7 @@ export function ProductCard({ product, priority }: { product: ProductSummary; pr
                 className="line-clamp-2 rounded-sm outline-offset-4 after:absolute after:-inset-[400%] after:content-['']"
               >
                 {title}
+                <LinkPending />
               </Link>
             </h3>
             <div className="mt-2 flex items-end justify-between gap-3">

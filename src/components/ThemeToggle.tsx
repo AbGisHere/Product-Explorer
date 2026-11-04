@@ -12,7 +12,10 @@ export function ThemeToggle() {
       type="button"
       aria-label="Dark theme"
       aria-pressed={theme === null ? undefined : dark}
-      onClick={() => setTheme(dark ? "light" : "dark")}
+      onClick={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        setTheme(dark ? "light" : "dark", { x: r.left + r.width / 2, y: r.top + r.height / 2 });
+      }}
       className="btn size-10 px-0"
     >
       {dark ? <SunIcon className="size-4" /> : <MoonIcon className="size-4" />}
