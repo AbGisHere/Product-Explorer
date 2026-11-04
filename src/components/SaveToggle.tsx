@@ -23,7 +23,7 @@ export function SaveToggle({
         type="button"
         aria-pressed={saved}
         onClick={() => toggle(id)}
-        className={`stamp btn ${saved ? "btn-primary" : ""}`}
+        className={`stamp btn btn-glass glass ${saved ? "btn-primary" : ""}`}
       >
         <HeartIcon filled={saved} />
         {saved ? "Saved" : "Save product"}

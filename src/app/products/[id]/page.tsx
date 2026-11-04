@@ -117,7 +117,7 @@ export default async function ProductPage({ params }: { params: Params }) {
 
             <div className="mt-8 flex flex-wrap gap-2">
               <SaveToggle id={p.id} title={p.title} variant="full" />
-              <BackToCatalogue className="btn">Back to catalogue</BackToCatalogue>
+              <BackToCatalogue className="btn btn-glass glass">Back to catalogue</BackToCatalogue>
             </div>
           </Glass>
       </div>

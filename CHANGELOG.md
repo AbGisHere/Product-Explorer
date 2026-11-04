@@ -6,6 +6,10 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.12] - 2026-11-04
+### Changed
+- Detail page: "Save product" and "Back to catalogue" are glass buttons (lit rim, frosted fill), matching the sidebar lens. Saving fills the glass with ink and unsaving clears it, both with a smooth fade.
+
 ## [0.3.11] - 2026-11-04
 ### Changed
 - Dark mode contrast: product photo boxes have a faint hairline edge and a slightly lighter fill, the room is a touch lighter, and glass panels have a stronger rim and fill, so boxes no longer melt into the background on phones.
