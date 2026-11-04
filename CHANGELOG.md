@@ -6,6 +6,10 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-11-04
+### Release
+- 1.0.0: first stable release of Product Explorer for GDG Frontend Task II. No code changes since 0.3.19.
+
 ## [0.3.19] - 2026-11-04
 ### Changed
 - Pagination unfolds. Phones now show the neighbouring pages and the first and last page, like larger screens, with arrow icons for Previous and Next to save room. Tapping or clicking either "…", swiping sideways over the numbers, or scrolling sideways with a trackpad or wheel unfolds the pager into a scrollable strip of every page. The swipe that opens it keeps scrolling it, and on a laptop the vertical mouse wheel scrolls the open strip too. Picking a page glides the lens there, then the strip folds back. Clicking outside or pressing Escape also folds it.
