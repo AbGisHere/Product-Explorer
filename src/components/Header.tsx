@@ -1,30 +1,37 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { isFixtureMode } from "@/lib/api";
+import { Glass } from "./glass/Glass";
 import { RefreshButton } from "./RefreshButton";
 import { SavedLink } from "./SavedLink";
+import { ThemeToggle } from "./ThemeToggle";
 
-// Server Component: static shell. Only the interactive bits are client components.
+// Server Component shell. The bar is a floating glass capsule; content scrolls under it and bends through its rim.
 export function Header() {
   return (
-    <header className="sticky top-0 z-30 border-b border-line bg-surface/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 sm:px-6">
-        <Link href="/" className="mr-auto rounded text-lg font-semibold tracking-tight">
+    <header className="sticky top-3 z-30 px-3 sm:px-5">
+      <Glass
+        radius={30}
+        bezel={20}
+        bend={22}
+        frost={2}
+        className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-3 gap-y-2 py-2 pl-5 pr-2 sm:pl-6"
+      >
+        <Link href="/" className="display mr-auto rounded-full py-2 text-[0.75rem] tracking-[0.16em] sm:text-[0.8125rem] sm:tracking-[0.18em]">
           Product Explorer
         </Link>
         {isFixtureMode() && (
-          <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-medium text-amber-900">
-            Fixture mode: offline data
-          </span>
+          <span className="rounded-full px-3 py-1 text-xs text-muted ring-1 ring-line max-sm:order-last max-sm:w-full max-sm:text-center">Fixture data</span>
         )}
-        <nav aria-label="Primary" className="flex items-center gap-2">
+        <nav aria-label="Primary" className="flex flex-wrap items-center gap-1.5">
           {/* useSearchParams in a layout needs a Suspense boundary */}
-          <Suspense fallback={<span className="btn">Saved</span>}>
+          <Suspense fallback={<span className="btn h-10 px-4">Saved</span>}>
             <SavedLink />
           </Suspense>
           <RefreshButton />
+          <ThemeToggle />
         </nav>
-      </div>
+      </Glass>
     </header>
   );
 }

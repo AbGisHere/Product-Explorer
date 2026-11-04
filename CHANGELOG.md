@@ -6,6 +6,18 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-04
+### Added
+- `PRODUCT.md`: the product record (audience, brief constraints, evidence, principles) used to guide design work.
+- Persistent light/dark theme toggle (follows the system until chosen; no flash, no hydration warning).
+
+### Changed
+- Visual redesign, "atelier glass": real refractive glass surfaces (SVG displacement over the backdrop with a circular-bezel profile, per-channel dispersion, frost, saturation, rim light and sheen; Chromium refracts, other browsers get frosted glass), a porcelain/obsidian room lit by colour sampled from the product you point at, Archivo Expanded display with Hanken Grotesk, and monochrome ink controls.
+- Product detail page rebuilt: the card photo morphs into the hero (React `<ViewTransition>`), an angle gallery, and a glass spec panel that rises in.
+
+### Removed
+- `products/[id]/loading.tsx`: the detail route now waits for data inside the navigation transition so the shared-element morph can pair (a skeleton commit would break it).
+
 ## [0.1.1] - 2026-11-04
 ### Fixed
 - CI typecheck on a clean checkout: `typecheck` now runs `next typegen` first so generated route types (`LayoutProps`) exist.

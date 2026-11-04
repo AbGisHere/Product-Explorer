@@ -23,19 +23,19 @@ export function RefreshButton() {
     });
 
   return (
-    <div className="flex items-center gap-2">
-      <button type="button" onClick={onClick} disabled={pending} className="btn btn-primary">
+    <div className="relative">
+      <button type="button" onClick={onClick} disabled={pending} className="btn btn-primary h-10 px-4 max-sm:w-10 max-sm:px-0">
         <RefreshIcon className={`size-4 ${pending ? "animate-spin" : ""}`} />
-        {pending ? "Refreshing…" : "Refresh catalogue"}
+        <span className="max-sm:sr-only">{pending ? "Refreshing…" : "Refresh catalogue"}</span>
       </button>
-      <p role="status" aria-live="polite" className="text-xs">
+      <p role="status" aria-live="polite" className="pointer-events-none absolute right-0 top-[calc(100%+14px)] whitespace-nowrap text-xs">
         {result?.ok && (
-          <span className="text-success">
-            Updated {new Date(result.at).toLocaleTimeString()}
+          <span className="rounded-full bg-ink px-3 py-1.5 text-room">
+            Catalogue updated {new Date(result.at).toLocaleTimeString()}
           </span>
         )}
         {result && !result.ok && (
-          <span className="text-danger">Refresh failed. Try again.</span>
+          <span className="rounded-full bg-danger px-3 py-1.5 font-medium text-room">Refresh failed. Try again.</span>
         )}
       </p>
     </div>

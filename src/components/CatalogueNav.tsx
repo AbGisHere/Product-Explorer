@@ -69,7 +69,7 @@ export function ResultsRegion({ children }: { children: ReactNode }) {
   return (
     <div
       aria-busy={isPending}
-      className={`transition-opacity duration-150 ${isPending ? "pointer-events-none opacity-60" : ""}`}
+      className={`transition-[opacity,filter] duration-300 ${isPending ? "pointer-events-none opacity-50 blur-[2px]" : ""}`}
     >
       {children}
     </div>
@@ -80,9 +80,9 @@ export function ResultsRegion({ children }: { children: ReactNode }) {
 export function ResultsSummary({ text }: { text: string }) {
   const { isPending } = useCatalogueNav();
   return (
-    <p role="status" aria-live="polite" className="text-sm text-muted">
+    <p role="status" aria-live="polite" className="pb-1 text-sm tabular-nums text-muted">
       {text}
-      {isPending && <span className="ml-2 text-accent">Updating…</span>}
+      {isPending && <span className="ml-2 text-ink">Updating…</span>}
     </p>
   );
 }

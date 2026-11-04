@@ -9,6 +9,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { SearchInput } from "@/components/SearchInput";
 import { SortSelect } from "@/components/SortSelect";
 import { EmptyResults } from "@/components/states";
+import { Glass } from "@/components/glass/Glass";
 
 type SP = Promise<Record<string, string | string[] | undefined>>;
 
@@ -43,23 +44,32 @@ export default async function CataloguePage({ searchParams }: { searchParams: SP
 
   return (
     <CatalogueNavProvider query={{ ...query, page: result.page }}>
-      <div className="lg:grid lg:grid-cols-[15rem_1fr] lg:gap-6">
+      <div className="lg:grid lg:grid-cols-[15rem_1fr] lg:gap-10">
         <CategoryFilter categories={categories} variant="sidebar" />
 
         <section aria-labelledby="results-heading" className="min-w-0">
-          <h1 id="results-heading" className="mb-4 scroll-mt-24 text-2xl font-semibold tracking-tight">
-            {heading}
-          </h1>
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+            <h1
+              id="results-heading"
+              className="display scroll-mt-28 text-balance text-[clamp(2rem,5vw,3.5rem)] leading-[0.95] tracking-[-0.01em]"
+            >
+              {heading}
+            </h1>
+            <ResultsSummary text={summary} />
+          </div>
 
-          <div role="search" className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:flex-nowrap">
+          <Glass
+            role="search"
+            radius={30}
+            bezel={18}
+            bend={20}
+            frost={2}
+            className="mb-8 flex flex-col divide-y divide-line p-1.5 sm:flex-row sm:items-center sm:divide-x sm:divide-y-0"
+          >
             <SearchInput />
             <CategoryFilter categories={categories} variant="select" />
             <SortSelect />
-          </div>
-
-          <div className="mb-4 mt-4">
-            <ResultsSummary text={summary} />
-          </div>
+          </Glass>
 
           <ResultsRegion>
             {result.total === 0 ? (
@@ -69,7 +79,7 @@ export default async function CataloguePage({ searchParams }: { searchParams: SP
               />
             ) : (
               <>
-                <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                <ul className="grid grid-cols-1 gap-x-5 gap-y-6 sm:grid-cols-2 xl:grid-cols-3">
                   {result.items.map((p, i) => (
                     <li key={p.id}>
                       <ProductCard product={toSummary(p)} priority={i < 3} />

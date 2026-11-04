@@ -1,6 +1,6 @@
 # Product Explorer
 
-**Version:** `v0.1.1`
+**Version:** `v0.2.0`
 
 A responsive product discovery app (GDG Tech Frontend Task II): browse the DummyJSON
 catalogue, search / filter / sort / paginate, view product details and save favourites,
@@ -61,9 +61,12 @@ The normal API integration is untouched; fixture mode is a branch inside the sam
 - **Details:** `/products/[id]` with image, title, description, category, brand, price, rating and stock, plus product-specific `<title>`, description and Open Graph metadata. Works on a direct visit. Unknown or invalid ids show a helpful not-found page.
 - **Saved products:** favourites stored in `localStorage`. The **Saved (n)** link opens a saved-only view, and toggles stay in sync between cards, the detail page and other tabs. No hydration warnings.
 - **Refresh catalogue:** a Server Action that invalidates the server cache. The button is disabled while pending and shows a success or failure message.
-- **States:** loading skeletons (the header shell stays in place), empty results with a reset action, an upstream error with **Try again**, and not-found pages.
+- **States:** catalogue loading skeleton (the header shell stays in place), empty results with a reset action, an upstream error with **Try again**, and not-found pages.
 - **Responsive:** 3-column grid with a sidebar at ≥1280 px; 2 columns with a category dropdown at 768 px; 1 column with stacked controls at 375 px.
 - **Accessibility:** landmarks (`header`/`nav`/`main`/`footer`, `role="search"`), skip link, labelled inputs, a single visible focus style, `aria-current` on the active category and page, `aria-pressed` on save toggles, accessible names on icon buttons, live regions for result counts and refresh status, and `prefers-reduced-motion` support.
+- **Design ("atelier glass"):** real refractive glass surfaces (`components/glass/`): an SVG displacement map with a circular-bezel profile bends the backdrop, red/green/blue are displaced by slightly different amounts (dispersion), then frosted and saturated, with a rim light and sheen. Chromium refracts; Safari/Firefox get frosted glass. The background "room" is lit by colour sampled from the product you hover/focus. Archivo Expanded + Hanken Grotesk, monochrome ink controls.
+- **Dark theme:** persistent light/dark toggle; follows the system until chosen; applied before paint (no flash, no hydration warning).
+- **Card → detail morph:** the card photo morphs into the detail hero with React `<ViewTransition>`; the detail glass panel rises in, and an angle gallery switches views. Respects `prefers-reduced-motion`.
 - **Images:** `next/image` with `sizes` and `remotePatterns`, in fixed aspect-ratio boxes so space is reserved. Missing or broken images fall back to a placeholder without breaking the grid.
 
 ---
@@ -78,12 +81,13 @@ src/
     loading.tsx error.tsx not-found.tsx
     actions.ts              "use server" refreshCatalogue (updateTag)
     api/refresh/route.ts    POST twin of the action for scripts/curl
-    products/[id]/          page.tsx (+ generateMetadata), loading, error, not-found
+    products/[id]/          page.tsx (+ generateMetadata), error, not-found
   components/
     Header, RefreshButton, SavedLink            header
     CatalogueNav                                URL-state context, pending state, saved-view sync
     SearchInput, SortSelect, CategoryFilter     discovery controls
-    ProductCard, ProductImage, SaveToggle, Pagination
+    ProductCard, ProductImage, SaveToggle, Pagination, DetailGallery, ThemeToggle
+    glass/Glass, glass/optics, glass/Room, RoomLight   refracting glass + product-lit backdrop
     states.tsx, RouteError.tsx                  reusable Loading / Empty / Error
   lib/
     api.ts          server-only typed data access + cache config
@@ -194,7 +198,9 @@ Fetching everything with `limit=0` works for 194 products and makes combined fil
 
 ## Known limitations
 
-- **Unknown products return HTTP 200, not 404.** Because the route has a `loading.tsx`, Next streams the response (and commits the status) before `notFound()` runs. The not-found UI and a `noindex` meta tag are still sent. Removing the detail `loading.tsx` would give a real 404 at the cost of the loading skeleton. The same applies to upstream errors (HTTP 200 with the error boundary).
+- **No skeleton on the detail route.** `products/[id]/loading.tsx` was removed so the card → detail morph can pair (React only morphs when the destination renders in the same commit as the navigation). The trade-off: opening a product waits for its data instead of showing a skeleton.
+- **Unknown products return HTTP 200, not 404.** The root layout's streamed shell commits the status before `notFound()` runs; the not-found UI and a `noindex` meta tag are still sent.
+- **Refraction is Chromium-only.** SVG filters in `backdrop-filter` are only supported by Chromium; other browsers get frosted glass with the same rim light.
 - `?page=` beyond the last page is clamped when rendering, but the URL keeps the original value.
 - `next dev` doesn't behave like production for caching. Verify caching with `npm run build && npm start`.
 - Fixture mode has no network, so remote product images may not load; the placeholder appears instead.

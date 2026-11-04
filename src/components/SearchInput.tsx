@@ -32,20 +32,20 @@ export function SearchInput() {
   }, [value, navigate]);
 
   return (
-    <div className="relative flex-1">
+    <div className="relative min-w-0 flex-1">
       <label htmlFor="search" className="sr-only">
         Search products by title
       </label>
-      <SearchIcon className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted" />
+      <SearchIcon className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-quiet" />
       <input
         id="search"
         type="search"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        placeholder="Search products…"
+        placeholder="Search the collection"
         maxLength={100}
         autoComplete="off"
-        className="field pl-9"
+        className="field pl-11"
       />
     </div>
   );

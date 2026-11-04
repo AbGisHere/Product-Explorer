@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { MouseEvent } from "react";
 import { formatCategory } from "@/lib/catalogue";
 import { useCatalogueNav } from "./CatalogueNav";
+import { Glass } from "./glass/Glass";
 
 /**
  * Desktop (lg+): sidebar list of real links (works without JS, middle-click,
@@ -32,11 +33,11 @@ export function CategoryFilter({
 
   if (variant === "sidebar") return (
       <nav aria-labelledby="cat-heading" className="hidden lg:block">
-        <div className="sticky top-20 rounded-xl border border-line bg-surface p-3">
-          <h2 id="cat-heading" className="px-2 pb-2 text-sm font-semibold">
+        <Glass radius={26} bezel={18} bend={20} frost={2} className="sticky top-24 p-2">
+          <h2 id="cat-heading" className="tracked px-3 pb-2 pt-3 text-muted">
             Categories
           </h2>
-          <ul className="max-h-[calc(100dvh-10rem)] space-y-0.5 overflow-y-auto">
+          <ul className="max-h-[calc(100dvh-11rem)] space-y-0.5 overflow-y-auto">
             {items.map(([slug, label]) => {
               const active = query.category === slug;
               return (
@@ -46,8 +47,10 @@ export function CategoryFilter({
                     onClick={(e) => onClick(e, slug)}
                     aria-current={active ? "page" : undefined}
                     scroll={false}
-                    className={`block rounded-md px-2 py-1.5 text-sm transition-colors ${
-                      active ? "bg-accent-soft font-medium text-accent" : "text-ink hover:bg-canvas"
+                    className={`block rounded-full px-3 py-2 text-sm transition-colors duration-300 ${
+                      active
+                        ? "bg-ink font-medium text-room"
+                        : "text-muted hover:bg-veil hover:text-ink"
                     }`}
                   >
                     {label}
@@ -56,13 +59,13 @@ export function CategoryFilter({
               );
             })}
           </ul>
-        </div>
+        </Glass>
       </nav>
   );
 
   return (
-      <div className="flex items-center gap-2 lg:hidden sm:w-60">
-        <label htmlFor="category" className="shrink-0 text-sm text-muted">
+      <div className="flex min-w-0 items-center lg:hidden sm:w-56">
+        <label htmlFor="category" className="sr-only">
           Category
         </label>
         <select

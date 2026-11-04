@@ -1,54 +1,301 @@
 @import "tailwindcss";
 
-/* Design tokens: one place for colour, radius, font. */
+/*
+ * Atelier glass.
+ * A quiet porcelain (light) or obsidian (dark) room, monochrome ink, and clear
+ * glass slabs. Colour is never hand-picked: the room is lit by the product
+ * you point at. Values live in CSS variables so the dark theme only swaps them.
+ */
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-archivo), var(--font-hanken), ui-sans-serif, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --color-canvas: #f6f7f9;
-  --color-surface: #ffffff;
-  --color-ink: #16181d;
-  --color-muted: #5b6270;
-  --color-line: #e2e5ea;
-  --color-accent: #1a56db;
-  --color-accent-soft: #e8effc;
-  --color-danger: #c0362c;
-  --color-success: #187a43;
+  --color-room: var(--room);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-quiet: var(--quiet);
+  --color-line: var(--line);
+  --color-veil: var(--veil);
+  --color-well: var(--well);
+  --color-paper: var(--paper);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+
+  /* older names still used by a few state components */
+  --color-canvas: var(--room);
+  --color-surface: var(--paper);
+  --color-accent: var(--ink);
+  --color-accent-soft: var(--veil);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+:root {
+  color-scheme: light;
+  --room: #e6e6e8;
+  --ink: #111113;
+  --muted: #53545b;
+  --quiet: #6e6f76;
+  --line: rgb(17 17 19 / 0.12);
+  --veil: rgb(255 255 255 / 0.4);
+  --well: rgb(17 17 19 / 0.05);
+  --photo-blend: multiply;
+  --paper: #f4f4f5;
+  --danger: #a3261d;
+  --success: #1d6a3c;
+
+  --glass-fill: rgb(255 255 255 / 0.1);
+  --glass-rim: rgb(255 255 255 / 0.9);
+  --glass-rim-low: rgb(255 255 255 / 0.25);
+  --glass-sheen: rgb(255 255 255 / 0.3);
+  --glass-shade: rgb(20 20 30 / 0.24);
+
+  --tint-a: #b9bfd0;
+  --tint-b: #d8d3cc;
+  --tint-c: #b8bec9;
+  --room-strength: 70%;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --room: #0b0b0d;
+    --ink: #f3f2ef;
+    --muted: #a8a8af;
+    --quiet: #8c8c93;
+    --line: rgb(255 255 255 / 0.12);
+    --veil: rgb(255 255 255 / 0.08);
+    --well: rgb(255 255 255 / 0.04);
+    --photo-blend: normal;
+    --paper: #18181b;
+    --danger: #f2948b;
+    --success: #7fcf9c;
+    --glass-fill: rgb(255 255 255 / 0.05);
+    --glass-rim: rgb(255 255 255 / 0.55);
+    --glass-rim-low: rgb(255 255 255 / 0.1);
+    --glass-sheen: rgb(255 255 255 / 0.12);
+    --glass-shade: rgb(0 0 0 / 0.6);
+    --tint-a: #2d3447;
+    --tint-b: #25242b;
+    --tint-c: #1d2230;
+    --room-strength: 55%;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --room: #0b0b0d;
+  --ink: #f3f2ef;
+  --muted: #a8a8af;
+  --quiet: #8c8c93;
+  --line: rgb(255 255 255 / 0.12);
+  --veil: rgb(255 255 255 / 0.08);
+  --well: rgb(255 255 255 / 0.04);
+  --photo-blend: normal;
+  --paper: #18181b;
+  --danger: #f2948b;
+  --success: #7fcf9c;
+  --glass-fill: rgb(255 255 255 / 0.05);
+  --glass-rim: rgb(255 255 255 / 0.55);
+  --glass-rim-low: rgb(255 255 255 / 0.1);
+  --glass-sheen: rgb(255 255 255 / 0.12);
+  --glass-shade: rgb(0 0 0 / 0.6);
+  --tint-a: #2d3447;
+  --tint-b: #25242b;
+  --tint-c: #1d2230;
+  --room-strength: 55%;
+}
+
+/* ---------- The room ---------- */
+
+@property --room-a { syntax: "<color>"; inherits: false; initial-value: #b9bfd0; }
+@property --room-b { syntax: "<color>"; inherits: false; initial-value: #d8d3cc; }
+@property --room-c { syntax: "<color>"; inherits: false; initial-value: #b8bec9; }
+
+.room {
+  --room-a: var(--tint-a);
+  --room-b: var(--tint-b);
+  --room-c: var(--tint-c);
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(55% 60% at 90% 2%, color-mix(in oklab, var(--room-a) var(--room-strength), transparent), transparent 72%),
+    radial-gradient(48% 52% at 4% 98%, color-mix(in oklab, var(--room-c) var(--room-strength), transparent), transparent 70%),
+    radial-gradient(40% 44% at 48% 50%, color-mix(in oklab, var(--room-b) calc(var(--room-strength) * 0.6), transparent), transparent 70%),
+    var(--room);
+  transition:
+    --room-a 800ms var(--ease-out-expo),
+    --room-b 800ms var(--ease-out-expo),
+    --room-c 800ms var(--ease-out-expo);
+}
+
+/* ---------- Glass ---------- */
+/* In the components layer so utilities (absolute, sticky, padding) still win. */
+@layer components {
+
+.glass {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--glass-r, 22px);
+  background: var(--glass-fill);
+  /* Fallback (non-Chromium): frost + saturation. Chromium swaps in the refraction filter inline. */
+  backdrop-filter: blur(14px) saturate(1.6) brightness(1.04);
+  -webkit-backdrop-filter: blur(14px) saturate(1.6) brightness(1.04);
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.05),
+    0 18px 40px -18px var(--glass-shade);
+}
+/* Rim light: bright top-left edge, softer sides, a lift at the bottom (light from top left). */
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(160deg, var(--glass-rim) 0%, var(--glass-rim-low) 30%, transparent 55%, var(--glass-rim-low) 85%, rgb(255 255 255 / 0.3) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* Specular sheen across the upper face. */
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(120% 80% at 18% -12%, var(--glass-sheen), transparent 55%);
+  pointer-events: none;
+}
+
+}
+
+/* ---------- Base ---------- */
+
 @layer base {
-  html {
-    color-scheme: light;
-  }
   body {
-    @apply bg-canvas text-ink font-sans;
+    @apply text-ink font-sans;
+    background: var(--room);
   }
-  /* One visible focus style for everything keyboard-focusable. */
+  ::selection {
+    background: var(--ink);
+    color: var(--room);
+  }
+  input {
+    caret-color: var(--ink);
+  }
+  a {
+    text-underline-offset: 4px;
+  }
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-accent;
+    @apply outline-2 outline-offset-2 outline-ink;
+  }
+  * {
+    scrollbar-color: var(--quiet) transparent;
   }
 }
 
 @layer components {
+  .display {
+    font-family: var(--font-display);
+    font-stretch: 125%;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  .tracked {
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    font-weight: 600;
+  }
   .btn {
-    @apply inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-line bg-surface px-4 text-sm font-medium text-ink transition-colors hover:bg-canvas disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-medium text-ink transition-[background-color,color,scale] duration-300 ease-out-expo active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50;
+    background: var(--veil);
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .btn:hover:not(:disabled) {
+    background: color-mix(in oklab, var(--veil), var(--ink) 8%);
   }
   .btn-primary {
-    @apply border-accent bg-accent text-white hover:bg-accent/90;
+    background: var(--ink);
+    color: var(--room);
+    box-shadow: none;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: color-mix(in oklab, var(--ink), var(--room) 16%);
   }
   .field {
-    @apply h-10 w-full rounded-lg border border-line bg-surface px-3 text-sm text-ink placeholder:text-muted hover:border-muted/50;
+    @apply h-11 w-full rounded-full bg-transparent px-4 text-sm text-ink outline-offset-[-2px] placeholder:text-quiet;
+  }
+  select.field {
+    @apply cursor-pointer appearance-none pr-10;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+  }
+  select.field option {
+    background: var(--paper);
+    color: var(--ink);
   }
   .skeleton {
-    @apply animate-pulse rounded-md bg-line/70;
+    @apply animate-pulse rounded-2xl;
+    background: var(--veil);
   }
 }
 
+/* Product shots sit on studio white; in the light room that white melts into the well. */
+.product-photo {
+  mix-blend-mode: var(--photo-blend);
+}
+
+/* ---------- Motion ---------- */
+
+@keyframes press {
+  0% { transform: scale(1); }
+  40% { transform: scale(0.8); }
+  100% { transform: scale(1); }
+}
+.stamp[aria-pressed="true"] svg {
+  animation: press 300ms var(--ease-out-expo);
+}
+
+/* Card -> detail morph (React <ViewTransition share="morph">). */
+::view-transition-group(.morph) {
+  animation-duration: 600ms;
+  animation-timing-function: cubic-bezier(0.2, 0.9, 0.1, 1);
+}
+::view-transition-image-pair(.morph) {
+  animation-name: via-blur;
+}
+@keyframes via-blur {
+  35% { filter: blur(3px); }
+}
+::view-transition-new(.rise) {
+  animation: rise 560ms var(--ease-out-expo) 140ms both;
+}
+::view-transition-old(.rise) {
+  animation: fade-out 160ms ease-out both;
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(20px); filter: blur(8px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+@keyframes fade-out {
+  to { opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) {
+    animation: none !important;
   }
 }
