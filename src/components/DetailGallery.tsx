@@ -9,8 +9,20 @@ import { sampleTint, useRoomLight } from "./glass/Room";
  * Hero image (shared element: the card's photo morphs into it) plus the other
  * angles as small glass lenses. The open product lights the room.
  */
-export function DetailGallery({ id, title, images }: { id: number; title: string; images: string[] }) {
+export function DetailGallery({
+  id,
+  title,
+  images,
+  thumbnail,
+}: {
+  id: number;
+  title: string;
+  images: string[];
+  /** The card's photo: shown at once (already cached) so the morph lands on the same picture. */
+  thumbnail: string | null;
+}) {
   const [index, setIndex] = useState(0);
+  const [sharp, setSharp] = useState(false); // full-size photo decoded
   const light = useRoomLight();
   useEffect(() => () => light(null), [light]); // leaving the page returns the room to neutral
 
@@ -19,7 +31,21 @@ export function DetailGallery({ id, title, images }: { id: number; title: string
     <div>
       <div className="relative overflow-hidden rounded-[36px] bg-well">
         <ViewTransition name={`product-${id}`} share="morph" default="none">
-          <div>
+          <div className="relative" data-product-photo={id}>
+            {/* Same URL + sizes as the card, so it comes straight from the browser cache:
+                the morph flies the card photo into place, then the full-size photo fades in over it. */}
+            {index === 0 && thumbnail && !sharp && (
+              <div className="absolute inset-0" aria-hidden="true">
+                <ProductImage
+                  src={thumbnail}
+                  alt=""
+                  priority
+                  sizes="(min-width: 1280px) 300px, (min-width: 640px) 45vw, 90vw"
+                  className="aspect-square"
+                />
+              </div>
+            )}
+            <div className={`transition-opacity duration-500 ease-out-expo ${index === 0 && thumbnail && !sharp ? "opacity-0" : "opacity-100"}`}>
             <ProductImage
               key={src ?? "none"}
               src={src}
@@ -27,8 +53,12 @@ export function DetailGallery({ id, title, images }: { id: number; title: string
               priority
               sizes="(min-width: 1024px) 640px, 92vw"
               className="aspect-square"
-              onLoad={(img) => light(sampleTint(img))}
+              onLoad={(img) => {
+                light(sampleTint(img));
+                img.decode().catch(() => {}).finally(() => setSharp(true));
+              }}
             />
+            </div>
           </div>
         </ViewTransition>
       </div>

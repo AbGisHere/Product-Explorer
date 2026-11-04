@@ -5,6 +5,7 @@ import { cache } from "react";
 import { getProduct } from "@/lib/api";
 import { formatCategory, formatPrice } from "@/lib/catalogue";
 import { ViewTransition } from "react";
+import { BackToCatalogue } from "@/components/BackToCatalogue";
 import { DetailGallery } from "@/components/DetailGallery";
 import { Glass } from "@/components/glass/Glass";
 import { SaveToggle } from "@/components/SaveToggle";
@@ -78,7 +79,7 @@ export default async function ProductPage({ params }: { params: Params }) {
       <nav aria-label="Breadcrumb" className="mb-8 text-sm text-muted">
         <ol className="flex flex-wrap items-center gap-2">
           <li>
-            <Link href="/" className="rounded-full hover:text-ink">Catalogue</Link>
+            <BackToCatalogue className="rounded-full hover:text-ink">Catalogue</BackToCatalogue>
           </li>
           <li aria-hidden="true" className="text-quiet">/</li>
           <li>
@@ -92,7 +93,7 @@ export default async function ProductPage({ params }: { params: Params }) {
       </nav>
 
       <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-12">
-        <DetailGallery id={p.id} title={p.title} images={images} />
+        <DetailGallery id={p.id} title={p.title} images={images} thumbnail={p.thumbnail} />
 
         <ViewTransition enter="rise" exit="rise" default="none">
           <Glass radius={34} bezel={24} bend={26} frost={2.5} className="p-7 sm:p-9 lg:sticky lg:top-24">
@@ -118,7 +119,7 @@ export default async function ProductPage({ params }: { params: Params }) {
 
             <div className="mt-8 flex flex-wrap gap-2">
               <SaveToggle id={p.id} title={p.title} variant="full" />
-              <Link href="/" className="btn">Back to catalogue</Link>
+              <BackToCatalogue className="btn">Back to catalogue</BackToCatalogue>
             </div>
           </Glass>
         </ViewTransition>

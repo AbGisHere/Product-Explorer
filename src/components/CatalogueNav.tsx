@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { LAST_CATALOGUE_KEY } from "./BackToCatalogue";
 import { createContext, useCallback, useContext, useEffect, useTransition, type ReactNode } from "react";
 import { buildQueryString, type CatalogueQuery } from "@/lib/catalogue";
 import { useFavourites } from "@/lib/favourites";
@@ -50,6 +51,15 @@ export function CatalogueNavProvider({ query, children }: { query: CatalogueQuer
 
   // Saved-only view: keep the ?saved= ids in sync when the user un/saves.
   const { ids, ready } = useFavourites();
+  // Remember that this tab has a catalogue view in its history (see BackToCatalogue).
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(LAST_CATALOGUE_KEY, "1");
+    } catch {
+      /* storage blocked: back link stays a plain link */
+    }
+  }, []);
+
   useEffect(() => {
     if (!ready || !query.saved) return;
     const same = ids.length === query.saved.length && ids.every((id) => query.saved!.includes(id));

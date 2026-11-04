@@ -24,7 +24,7 @@ export function ProductCard({ product, priority }: { product: ProductSummary; pr
       <article className="group relative h-full">
         <div className="relative overflow-hidden rounded-[28px] bg-well">
           <ViewTransition name={`product-${id}`} share="morph" default="none">
-            <div className="transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]">
+            <div data-product-photo={id} className="transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]">
               <ProductImage
                 src={thumbnail}
                 alt={title}
