@@ -6,6 +6,10 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.6] - 2026-11-04
+### Fixed
+- No box around the flying photo: v0.3.5 gave the flying copy a solid backing, which showed as a visible rectangle over the page. In light mode the copy is now the photo with its studio white turned into transparency (colour-to-alpha on a canvas), so it looks the same as the blended on-page photo over anything; in dark mode it is the plain photo, as on the page.
+
 ## [0.3.5] - 2026-11-04
 ### Fixed
 - Photo flight lands invisibly: the card's full-size hero photo is preloaded on hover (same srcset and `sizes` as the detail hero), the flight is a single `<img>` placed on the exact painted picture (object-contain inside padding) at both ends, and it hands over to the real photo in the same frame once that photo is loaded. No fades, no size or quality jump.

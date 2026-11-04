@@ -17,7 +17,7 @@ import { useEffect, useLayoutEffect, useRef, type ReactNode } from "react";
 
 export const HERO_SIZES = "(min-width: 1024px) 640px, 92vw";
 
-type Pending = { id: number; rect: DOMRect; src: string; well: string; at: number };
+type Pending = { id: number; rect: DOMRect; face: HTMLElement; at: number };
 let pending: Pending | null = null;
 const preloaded = new Map<number, HTMLImageElement>();
 
@@ -57,21 +57,37 @@ function paintedRect(img: HTMLImageElement): DOMRect {
   return new DOMRect(r.left + pl + (cw - w) / 2, r.top + pt + (ch - h) / 2, w, h);
 }
 
-/** The colour the photo sits on: its nearest painted background, composited over the page. */
-function wellColour(img: HTMLElement): string {
-  const parse = (c: string) => {
-    const m = c.match(/[\d.]+/g)?.map(Number) ?? [];
-    return { r: m[0] ?? 0, g: m[1] ?? 0, b: m[2] ?? 0, a: m.length > 3 ? m[3] : 1 };
-  };
-  const page = parse(getComputedStyle(document.body).backgroundColor);
-  for (let n = img.parentElement; n && n !== document.body; n = n.parentElement) {
-    const c = parse(getComputedStyle(n).backgroundColor);
-    if (c.a > 0) {
-      const mix = (k: "r" | "g" | "b") => Math.round(c[k] * c.a + page[k] * (1 - c.a));
-      return `rgb(${mix("r")} ${mix("g")} ${mix("b")})`;
+/**
+ * In light mode the page multiplies product photos onto their backing so the
+ * studio white disappears. A flying copy can't rely on blending (it passes over
+ * different things, and in a fixed layer the blend doesn't take), so instead
+ * the white is turned into transparency ("colour to alpha"): the photo then
+ * looks the same over anything, with no box around it.
+ */
+function whiteToAlpha(img: HTMLImageElement): HTMLCanvasElement | null {
+  try {
+    const c = document.createElement("canvas");
+    c.width = img.naturalWidth;
+    c.height = img.naturalHeight;
+    const ctx = c.getContext("2d", { willReadFrequently: true });
+    if (!ctx) return null;
+    ctx.drawImage(img, 0, 0);
+    const im = ctx.getImageData(0, 0, c.width, c.height);
+    const d = im.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const a0 = d[i + 3] / 255;
+      if (!a0) continue;
+      const min = Math.min(d[i], d[i + 1], d[i + 2]);
+      const a = Math.max(1 - min / 255, 0); // how far from white
+      if (a >= 0.999) continue;
+      for (let k = 0; k < 3; k++) d[i + k] = a > 0 ? Math.round((d[i + k] - 255 * (1 - a)) / a) : 0;
+      d[i + 3] = Math.round(a * a0 * 255);
     }
+    ctx.putImageData(im, 0, 0);
+    return c;
+  } catch {
+    return null; // tainted or failed: fly the plain photo
   }
-  return `rgb(${page.r} ${page.g} ${page.b})`;
 }
 
 export function rememberPhoto(id: number) {
@@ -81,8 +97,16 @@ export function rememberPhoto(id: number) {
   if (!rect.width || rect.bottom < 0 || rect.top > innerHeight) return; // off screen: nothing to fly
   // Prefer the preloaded full-size photo (same picture, more pixels) when it's ready.
   const hi = preloaded.get(id);
-  const src = hi?.complete && hi.naturalWidth ? hi.currentSrc : img.currentSrc;
-  pending = { id, rect, src, well: wellColour(img), at: performance.now() };
+  const source = hi?.complete && hi.naturalWidth ? hi : img;
+  const blended = getComputedStyle(img).mixBlendMode === "multiply";
+  let face: HTMLElement | null = blended ? whiteToAlpha(source) : null;
+  if (!face) {
+    const plain = document.createElement("img");
+    plain.src = source.currentSrc;
+    plain.alt = "";
+    face = plain;
+  }
+  pending = { id, rect, face, at: performance.now() };
 }
 
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
@@ -100,16 +124,7 @@ export function FlipPhoto({ id, className, children }: { id: number; className?:
 
     let started = false;
     let cancelled = false;
-    // The flying photo carries its own backing in the colour it sits on, and
-    // blends onto that (multiply in light mode), so its studio white looks the
-    // same in flight as on the page, whatever it passes over.
-    const clone = document.createElement("div");
-    const photo = document.createElement("img");
-    photo.src = from.src;
-    photo.alt = "";
-    photo.className = "product-photo";
-    Object.assign(photo.style, { width: "100%", height: "100%", display: "block", objectFit: "contain" });
-    clone.appendChild(photo);
+    const clone = from.face;
     clone.setAttribute("aria-hidden", "true");
     Object.assign(clone.style, {
       position: "fixed",
@@ -120,8 +135,7 @@ export function FlipPhoto({ id, className, children }: { id: number; className?:
       zIndex: "60",
       pointerEvents: "none",
       transformOrigin: "0 0",
-      isolation: "isolate",
-      background: from.well,
+      objectFit: "contain",
     });
     document.body.appendChild(clone);
     el.style.visibility = "hidden";
