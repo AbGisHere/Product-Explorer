@@ -6,6 +6,10 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.18] - 2026-11-04
+### Fixed
+- Toolbar focus outlines sit 5px inside the field instead of 2px, so they no longer touch the divider or the toolbar's edge.
+
 ## [0.3.17] - 2026-11-04
 ### Changed
 - Header buttons (Saved, Refresh catalogue, theme toggle) are now glass, matching the Save product and Back to catalogue buttons. They have a translucent fill, a lit rim and a soft shadow, with the dark glass for Refresh and for Saved while it's active.

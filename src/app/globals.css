@@ -341,7 +341,7 @@
     background: color-mix(in oklab, var(--ink) 78%, transparent);
   }
   .field {
-    @apply h-11 w-full rounded-full bg-transparent px-4 text-sm text-ink outline-offset-[-2px] placeholder:text-quiet;
+    @apply h-11 w-full rounded-full bg-transparent px-4 text-sm text-ink outline-offset-[-5px] placeholder:text-quiet;
   }
   .skeleton {
     @apply animate-pulse rounded-2xl;
