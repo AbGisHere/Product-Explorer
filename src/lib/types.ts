@@ -23,7 +23,10 @@ export interface Product {
 export type ProductSummary = Pick<
   Product,
   "id" | "title" | "category" | "price" | "rating" | "thumbnail"
->;
+> & {
+  /** The detail page's first photo, preloaded on hover so the card -> detail flight stays sharp. */
+  hero: string | null;
+};
 
 export function toSummary(p: Product): ProductSummary {
   return {
@@ -33,6 +36,7 @@ export function toSummary(p: Product): ProductSummary {
     price: p.price,
     rating: p.rating,
     thumbnail: p.thumbnail,
+    hero: p.images[0] ?? p.thumbnail,
   };
 }
 

@@ -18,9 +18,9 @@ export const itemNo = (id: number) => `No. ${String(id).padStart(3, "0")}`;
  * The image is a shared element: it morphs into the detail page hero.
  */
 export function ProductCard({ product, priority }: { product: ProductSummary; priority?: boolean }) {
-  const { id, title, category, price, rating, thumbnail } = product;
+  const { id, title, category, price, rating, thumbnail, hero } = product;
   return (
-    <RoomLight className="h-full" productId={id}>
+    <RoomLight className="h-full" productId={id} hero={hero}>
       <article className="group relative h-full">
         <div className="relative overflow-hidden rounded-[28px] bg-well">
           <FlipPhoto id={id}>

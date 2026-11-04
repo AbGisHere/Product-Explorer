@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { FlipPhoto, rememberPhoto } from "./FlipPhoto";
+import { FlipPhoto, HERO_SIZES, rememberPhoto } from "./FlipPhoto";
 import { ProductImage } from "./ProductImage";
 import { sampleTint, useRoomLight } from "./glass/Room";
 
@@ -24,7 +24,6 @@ export function DetailGallery({
 }) {
   const [index, setIndex] = useState(0);
   const [sharp, setSharp] = useState(false); // full-size photo decoded
-  const [settled, setSettled] = useState(false); // full-size photo finished fading in
   const light = useRoomLight();
   useEffect(() => () => light(null), [light]); // leaving the page returns the room to neutral
   // Browser back / swipe: remember the hero so it flies back into its card.
@@ -47,7 +46,7 @@ export function DetailGallery({
         <FlipPhoto id={id} className="relative">
             {/* Same URL + sizes as the card, so it comes straight from the browser cache:
                 the morph flies the card photo into place, then the full-size photo fades in over it. */}
-            {index === 0 && thumbnail && !settled && (
+            {index === 0 && thumbnail && !sharp && (
               <div className="absolute inset-0" aria-hidden="true">
                 <ProductImage
                   src={thumbnail}
@@ -58,18 +57,18 @@ export function DetailGallery({
                 />
               </div>
             )}
-            {/* The thumbnail stays underneath until the sharp photo has fully faded in,
-                so the upgrade is a cross-fade, never a flash through an empty frame. */}
+            {/* Shown the moment it's decoded (no fade): after a flight the clone
+                covers this box until then, so the swap is never visible. */}
             <div
-              onTransitionEnd={() => sharp && setSettled(true)}
-              className={`relative transition-opacity duration-700 ease-out ${index === 0 && thumbnail && !sharp ? "opacity-0" : "opacity-100"}`}
+              data-photo-layer
+              className={`relative ${index === 0 && thumbnail && !sharp ? "opacity-0" : "opacity-100"}`}
             >
             <ProductImage
               key={src ?? "none"}
               src={src}
               alt={images.length > 1 ? `${title}, view ${index + 1} of ${images.length}` : title}
               priority
-              sizes="(min-width: 1024px) 640px, 92vw"
+              sizes={HERO_SIZES}
               className="aspect-square"
               onLoad={(img) => {
                 light(sampleTint(img));

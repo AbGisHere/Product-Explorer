@@ -6,6 +6,11 @@ Add notes under **Unreleased** as you work; `npm run release -- <patch|minor|maj
 
 ## [Unreleased]
 
+## [0.3.5] - 2026-11-04
+### Fixed
+- Photo flight lands invisibly: the card's full-size hero photo is preloaded on hover (same srcset and `sizes` as the detail hero), the flight is a single `<img>` placed on the exact painted picture (object-contain inside padding) at both ends, and it hands over to the real photo in the same frame once that photo is loaded. No fades, no size or quality jump.
+- The photo keeps its colour in flight, both ways and in both themes: the flying copy carries its own backing in the colour the photo sits on and blends onto that (multiply in light mode), instead of depending on whatever it passes over (it went darker on the way in and lighter on the way out).
+
 ## [0.3.4] - 2026-11-04
 ### Changed
 - **Photo morph no longer uses View Transitions.** Chrome shows the page as snapshots during a view transition and doesn't draw the glass refraction in them, so glass flashed clear and popped back in afterwards. The card ↔ detail morph is now a FLIP flight of a clone of the real photo (`FlipPhoto`), so the live page and glass stay on screen throughout. It works in both directions, including the browser back button and swipe, and survives React Strict Mode's dev-only double mount (which used to cancel the flight in `npm run dev`).
